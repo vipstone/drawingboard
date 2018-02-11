@@ -14,7 +14,7 @@
 html+js+css，给予fabric.js开发完成的。
 
 ## 效果 ##
-
+![](https://raw.githubusercontent.com/vipstone/drawingboard/master/drawingboard/img/canvas-1.gif)
 
 
 
