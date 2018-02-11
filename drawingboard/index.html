@@ -6,10 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>画板程序</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>
+        .canvas {
+            width: 400px;
+            height: 200px;
+            border: 1px solid rgb(170, 170, 170);
+            cursor: pointer;
+        }
+    </style>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js "></script>
+    <script src="https://cdn.bootcss.com/fabric.js/2.0.0-rc.4/fabric.js "></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 
 <body>
+    <div>
+        <h1>1.自由绘</h1>
+        <canvas id="freeCanvas" class="canvas"></canvas>
+        <br /> 代码：
+        <pre><code class="javascipt">
+                var freeCanvas = new fabric.Canvas("freeCanvas", {
+                    isDrawingMode: true,
+                    width: 400,
+                    height: 250
+                });
+        </code></pre>
+    </div>
+    <HR color=#ccc SIZE=1>
+    <div>
+        <h1>2.画直线</h1>
+        <canvas id="lineCanvas" class="canvas"></canvas>
+        <br /> 代码：
+        <pre><code class="javascipt">
+                        
+                </code></pre>
+    </div>
 
+    <script>
+        //自由绘
+        var freeCs = new fabric.Canvas("freeCanvas", {
+            isDrawingMode: true,
+            width: 400,
+            height: 250
+        });
+
+        //画直线
+        var lineCs = new fabric.Canvas("freeCanvas");
+
+
+
+    </script>
 </body>
 
 </html>
