@@ -6,7 +6,7 @@
 <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/fabric.js/2.0.0-rc.4/fabric.js"></script>
 
-<!-- <script src="https://cdn.bootcss.com/fabric.js/1.7.22/fabric.js"></script> -->
+
 
 
 <body style="background-color: #E5E4E5;;overflow-x: hidden;">
@@ -14,43 +14,43 @@
     <div style="margin-top:10px;">
         <div style="width:50px;float:left;">
             <ul id="toolsul" class="tools">
-                <li id="toolsPencil" class="active">
+                <li id="toolsPencil" data-type="pen" class="active">
                     <i class="icon-tools icon-pen-select" data-default='icon-tools icon-pen-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="arrow">
                     <i class="icon-tools icon-arrow-black" data-default='icon-tools icon-arrow-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="line">
                     <i class="icon-tools icon-line-black" data-default='icon-tools icon-line-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="dottedline">
                     <i class="icon-tools icon-dottedline-black" data-default='icon-tools icon-dottedline-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="circle">
                     <i class="icon-tools icon-circle-black" data-default='icon-tools icon-circle-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="ellipse">
                     <i class="icon-tools icon-ellipse-black" data-default='icon-tools icon-ellipse-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="square">
                     <i class="icon-tools icon-square-black" data-default='icon-tools icon-square-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="rectangle">
                     <i class="icon-tools icon-rectangle-black" data-default='icon-tools icon-rectangle-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="rightangle">
                     <i class="icon-tools icon-rightangle-black" data-default='icon-tools icon-rightangle-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="equilateral">
                     <i class="icon-tools icon-equilateral-black" data-default='icon-tools icon-equilateral-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="isosceles">
                     <i class="icon-tools icon-isosceles-black" data-default='icon-tools icon-equilateral-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="text">
                     <i class="icon-tools icon-text-black" data-default='icon-tools icon-text-black'></i>
                 </li>
-                <li id="toolsLinesLi" data-type="global">
+                <li data-type="remove">
                     <i class="icon-tools icon-remove-black" data-default='icon-tools icon-remove-black'></i>
                 </li>
             </ul>
@@ -62,22 +62,7 @@
     </div>
 
 
-    <script>
-
-        var canvas = new fabric.Canvas('c', { isDrawingMode: true });
-        canvas.freeDrawingBrush.color = "#E34F51";
-
-        jQuery("#toolsul").find("li").on("click", function () {
-            jQuery("#toolsul").find("li>i").each(
-                function () {
-                    jQuery(this).attr("class", jQuery(this).attr("data-default"));
-                }
-            );
-            jQuery(this).addClass("active").siblings().removeClass("active");
-            jQuery(this).find("i").attr("class", jQuery(this).find("i").attr("class").replace("black", "select"));
-        });
-
-    </script>
+    <script src="js/demo.js"></script>
 </body>
 
 </html>
