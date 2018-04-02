@@ -1,61 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>画板程序</title>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-    <style>
-        .canvas {
-            width: 400px;
-            height: 200px;
-            border: 1px solid rgb(170, 170, 170);
-            cursor: pointer;
-        }
-    </style>
-    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js "></script>
-    <script src="https://cdn.bootcss.com/fabric.js/2.0.0-rc.4/fabric.js "></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-</head>
+<head></head>
+<link rel="stylesheet" href="css/index.css">
 
-<body>
-    <div>
-        <h1>1.自由绘</h1>
-        <canvas id="freeCanvas" class="canvas"></canvas>
-        <br /> 代码：
-        <pre><code class="javascipt">
-                var freeCanvas = new fabric.Canvas("freeCanvas", {
-                    isDrawingMode: true,
-                    width: 400,
-                    height: 250
-                });
-        </code></pre>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/fabric.js/2.0.0-rc.4/fabric.js"></script>
+
+<!-- <script src="https://cdn.bootcss.com/fabric.js/1.7.22/fabric.js"></script> -->
+
+
+<body style="background-color: #E5E4E5;;overflow-x: hidden;">
+
+    <div style="margin-top:10px;">
+        <div style="width:50px;float:left;">
+            <ul id="toolsul" class="tools">
+                <li id="toolsPencil" class="active">
+                    <i class="icon-tools icon-pen-select" data-default='icon-tools icon-pen-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-arrow-black" data-default='icon-tools icon-arrow-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-line-black" data-default='icon-tools icon-line-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-dottedline-black" data-default='icon-tools icon-dottedline-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-circle-black" data-default='icon-tools icon-circle-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-ellipse-black" data-default='icon-tools icon-ellipse-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-square-black" data-default='icon-tools icon-square-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-rectangle-black" data-default='icon-tools icon-rectangle-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-rightangle-black" data-default='icon-tools icon-rightangle-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-equilateral-black" data-default='icon-tools icon-equilateral-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-isosceles-black" data-default='icon-tools icon-equilateral-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-text-black" data-default='icon-tools icon-text-black'></i>
+                </li>
+                <li id="toolsLinesLi" data-type="global">
+                    <i class="icon-tools icon-remove-black" data-default='icon-tools icon-remove-black'></i>
+                </li>
+            </ul>
+
+        </div>
+        <div class="canvasDiv" style="width:95%;height:150%;">
+            <canvas id="c" width="1920" height="1080">请使用支持HTML5的浏览器</canvas>
+        </div>
     </div>
-    <HR color=#ccc SIZE=1>
-    <div>
-        <h1>2.画直线</h1>
-        <canvas id="lineCanvas" class="canvas"></canvas>
-        <br /> 代码：
-        <pre><code class="javascipt">
-                        
-                </code></pre>
-    </div>
+
 
     <script>
-        //自由绘
-        var freeCs = new fabric.Canvas("freeCanvas", {
-            isDrawingMode: true,
-            width: 400,
-            height: 250
+
+        var canvas = new fabric.Canvas('c', { isDrawingMode: true });
+        canvas.freeDrawingBrush.color = "#E34F51";
+
+        jQuery("#toolsul").find("li").on("click", function () {
+            jQuery("#toolsul").find("li>i").each(
+                function () {
+                    jQuery(this).attr("class", jQuery(this).attr("data-default"));
+                }
+            );
+            jQuery(this).addClass("active").siblings().removeClass("active");
+            jQuery(this).find("i").attr("class", jQuery(this).find("i").attr("class").replace("black", "select"));
         });
-
-        //画直线
-        var lineCs = new fabric.Canvas("freeCanvas");
-
-
 
     </script>
 </body>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画板</title>
+    <style>
+        .canvas {
+            width: 400px;
+            height: 200px;
+            border: 1px solid rgb(170, 170, 170);
+            cursor: pointer;
+        }
+
+        .mgTop {
+            margin-top: 30px;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/fabric.js/2.0.0-rc.4/fabric.js "></script>
+</head>
+
+<body style="padding-left: 10px;">
+    <div class="mgTop">
+        <canvas id="freeCanvas" class="canvas"></canvas>
+    </div>
+
+    <script>
+        var canvas = new fabric.Canvas("freeCanvas", {
+            isDrawingMode: false,
+            selection: false,
+            width: 800,
+            height: 500
+        });
+
+        var isDown = false;
+        canvas.observe('mouse:down', function (o) {
+            isDown = true;
+            var pointer = canvas.getPointer(o.e);
+            origX = pointer.x;
+            origY = pointer.y;
+            // tri = new fabric.Triangle({
+            //     left: pointer.x,
+            //     top: pointer.y,
+            //     strokeWidth: 1,
+            //     width: 200,
+            //     height: 100,
+            //     stroke: 'red',
+            //     fill: 'red',
+            //     selectable: false,
+            //     originX: 'center'
+            // });
+            // canvas.add(tri);
+
+
+            lineTriangle = new fabric.Triangle({
+                left: origX,
+                top: origY,
+                strokeWidth: 1,
+                width: 2,
+                height: 2,
+                stroke: 'red',
+                fill: 'red',
+                selectable: false,
+                originX: 'center',
+
+            });
+            canvas.add(lineTriangle);
+
+            equilateralTriangle = new fabric.Triangle({
+                left: origX,
+                top: origY,
+                strokeWidth: 1,
+                width: 10,
+                height: 10,
+                stroke: 'red',
+                fill: 'red',
+                selectable: false,
+                originX: 'center',
+
+            });
+            canvas.add(equilateralTriangle);
+
+
+        });
+
+
+        canvas.observe('mouse:move', function (o) {
+            if (!isDown) return;
+
+            var pointer = canvas.getPointer(o.e);
+            var clientX = pointer.x;
+            var clientY = pointer.y;
+
+            var angle = getAngle(origX, origY, clientX, clientY); //转换角度
+            var distance = getDistance(origX, origY, clientX, clientY) - 9;
+            lineTriangle.set({ height: distance, angle: angle - 180 });
+
+
+            equilateralTriangle.set({ left: clientX, top: clientY, angle: angle });
+
+            canvas.renderAll();
+
+
+        });
+
+        function getDistance(x1, y1, x2, y2) {
+            var calX = x2 - x1;
+            var calY = y2 - y1;
+            return Math.pow((calX * calX + calY * calY), 0.5);
+        }
+
+
+        function getAngle(px, py, mx, my) {
+            //获得人物中心和鼠标坐标连线，与y轴正半轴之间的夹角
+            var x = Math.abs(px - mx);
+            var y = Math.abs(py - my);
+            var z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+            var cos = y / z;
+            var radina = Math.acos(cos); //用反三角函数求弧度
+            var angle = Math.floor(180 / (Math.PI / radina)); //将弧度转换成角度
+
+            if (mx > px && my > py) {
+                //鼠标在第四象限
+                angle = 180 - angle;
+            }
+
+            if (mx == px && my > py) {
+                //鼠标在y轴负方向上
+                angle = 180;
+            }
+
+            if (mx > px && my == py) {
+                //鼠标在x轴正方向上
+                angle = 90;
+            }
+
+            if (mx < px && my > py) {
+                //鼠标在第三象限
+                angle = 180 + angle;
+            }
+
+            if (mx < px && my == py) {
+                //鼠标在x轴负方向
+                angle = 270;
+            }
+
+            if (mx < px && my < py) {
+                //鼠标在第二象限
+                angle = 360 - angle;
+            }
+            return angle;
+        }
+        function angle(start, end) {
+            // var diff_x = end.x - start.x,
+            //     diff_y = end.y - start.y;
+            // //返回角度,不是弧度
+            // return 360 * Math.atan(diff_y / diff_x) / (2 * Math.PI);
+
+            // var a = end.x - start.x, b = end.y - start.y;
+            // var c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+            // //余弦
+            // var cosB = (Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (2 * a * c);
+            // // 弧度
+            // var radina = Math.acos(cosB);
+            // // 角度
+            // var angle = 180 / (Math.PI / radina);
+            // return parseInt(angle);
+
+
+        }
+
+        canvas.on('mouse:up', function (o) {
+            isDown = false;
+        });
+
+        // // var coords = "M 0 0 L 10 10";
+        // var path = new fabric.Triangle({
+        //     left: 200,
+        //     top: 200,
+        //     strokeWidth: 1,
+        //     width: 10, height: 20,
+        //     stroke: 'red',
+        //     fill: 'red',
+        //     selectable: true,
+        //     originX: 'center',
+        //     angle: 0
+        // });
+
+        // fCanvas.add(path);
+
+
+
+    </script>
+</body>
+
+</html>
