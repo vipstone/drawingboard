@@ -6,6 +6,7 @@ canvas.selectable = false; 控件不能被选择，不会被操作<br>
 canvas.selection = true; 画板显示选中<br>
 canvas.skipTargetFind = true; 整个画板元素不能被选中<br>
 canvas.freeDrawingBrush.color = "#E34F51" 设置自由绘画笔的颜色<br>
+freeDrawingBrush.width  自由绘笔触宽度<br>
 
 ----------
 

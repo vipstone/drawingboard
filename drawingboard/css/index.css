@@ -24,6 +24,10 @@
   background:#E34F51
 }
 
+.hide{
+  display: none;
+}
+
 .canvasDiv{
     position: relative;
     width: 100%;
