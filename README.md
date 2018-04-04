@@ -20,7 +20,7 @@
 ## 说明 ##
 html+js+css，基于fabric.js开发完成的。
 
-## 效果 ##
+## 效果预览（看下图） ##
 ![](https://raw.githubusercontent.com/vipstone/drawingboard/master/drawingboard/image/demoPreview.gif)
 
 
