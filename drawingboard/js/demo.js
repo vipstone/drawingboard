@@ -1,4 +1,4 @@
-(function() {
+(function () {
   //变量声明
   var mouseFrom = {},
     mouseTo = {},
@@ -19,16 +19,16 @@
   canvas.freeDrawingBrush.width = drawWidth;
 
   //绑定画板事件
-  canvas.on("mouse:down", function(options) {
+  canvas.on("mouse:down", function (options) {
     mouseFrom.x = options.e.clientX;
     mouseFrom.y = options.e.clientY;
   });
-  canvas.on("mouse:up", function(options) {
+  canvas.on("mouse:up", function (options) {
     mouseTo.x = options.e.clientX;
     mouseTo.y = options.e.clientY;
     drawing();
   });
-  canvas.on("selection:created", function(e) {
+  canvas.on("selection:created", function (e) {
     if (e.target._objects) {
       //多选删除
       var etCount = e.target._objects.length;
@@ -45,11 +45,11 @@
   //绑定工具事件
   jQuery("#toolsul")
     .find("li")
-    .on("click", function() {
+    .on("click", function () {
       //设置样式
       jQuery("#toolsul")
         .find("li>i")
-        .each(function() {
+        .each(function () {
           jQuery(this).attr("class", jQuery(this).attr("data-default"));
         });
       jQuery(this)
@@ -197,8 +197,8 @@
         break;
       case "text":
         textbox = new fabric.Textbox("", {
-          left: mouseFrom.y,
-          top: mouseFrom.x,
+          left: mouseFrom.x - 60,
+          top: mouseFrom.y - 20,
           width: 150,
           fontSize: 18,
           borderColor: "#2c2c2c",
