@@ -10,20 +10,6 @@ freeDrawingBrush.width  自由绘笔触宽度<br>
 
 ----------
 
-### 图片去掉选中边框和旋转，且只能移动，不可操作 ###
-oImg.hasControls = false; 只能移动不能（编辑）操作<br>
-oImg.hasBorders = false; 去掉边框，可以正常操作<br>
-hasRotatingPoint = false; 不能被旋转<br>
-hasRotatingPoint 控制旋转点不可见<br>
-
-demo：
-fabric.Image.fromURL("300.jpg", function (oImg) {<br>
-&nbsp;&nbsp;canvas.add(oImg);<br>
-&nbsp;&nbsp;oImg.hasControls = oImg.hasBorders = false;<br>
-});
-
-----------
-
 ### 方法 ###
 add(object) 添加<br>
 insertAt(object,index) 添加<br>
@@ -61,17 +47,7 @@ setCoords() 设置坐标?<br>
 
 ----------
 
-
-### IText的方法 ###
-selectAll() 选择全部<br>
-getSelectedText() 获取选中的文本<br>
-exitEditing() 退出编辑模式?<br>
-
-----------
-
-
-### IText的方法 ###
-事件监听<br>
+### 事件 ###
 object:added<br>
 object:removed<br>
 object:modified<br>
@@ -90,6 +66,14 @@ mouse:up<br>
 mouse:over<br>
 mouse:out<br>
 mouse:dblclick<br>
+
+----------
+
+### IText的方法 ###
+selectAll() 选择全部<br>
+getSelectedText() 获取选中的文本<br>
+exitEditing() 退出编辑模式?<br>
+
 
 ----------
 
@@ -128,4 +112,16 @@ fabric.Polyline<br>
 fabric.Rect 矩形<br>
 fabric.Triangle 三角形<br>
 
+----------
 
+### 图片去掉选中边框和旋转，且只能移动，不可操作 ###
+oImg.hasControls = false; 只能移动不能（编辑）操作<br>
+oImg.hasBorders = false; 去掉边框，可以正常操作<br>
+hasRotatingPoint = false; 不能被旋转<br>
+hasRotatingPoint 控制旋转点不可见<br>
+
+demo：
+fabric.Image.fromURL("300.jpg", function (oImg) {<br>
+&nbsp;&nbsp;canvas.add(oImg);<br>
+&nbsp;&nbsp;oImg.hasControls = oImg.hasBorders = false;<br>
+});
