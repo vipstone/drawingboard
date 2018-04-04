@@ -8,11 +8,15 @@
 <br />正方形、长方形
 <br />文字
 ## 高级功能 ##
-<br /> 1、按Shift键，画垂直、视频直线；
+<br /> 1、按Shift键，画垂直、水平直线；
 <br /> 2、按Shift键，椭圆和正圆自由切换；
 <br /> 3、按Shift键，等腰三角形和等边自由切换；
 <br /> 4、按Shift键，等边直角三角形和直角三角形自由切换；
 <br /> 5、按Shift键，正方形和长方形自由切换；
+
+**附fabric.js使用笔记：**[点击打开](https://github.com/vipstone/drawingboard/blob/master/fabricjs%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.md)
+
+
 ## 说明 ##
 html+js+css，基于fabric.js开发完成的。
 
