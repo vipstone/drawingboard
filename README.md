@@ -1,5 +1,5 @@
 ## 简介 ##
-一款基于canvas的高级画板程序.
+基于canvas的高级画板程序.
 ## 功能 ##
 - 全局绘制颜色选择<br />
 - 护眼模式、网格模式切换<br />
@@ -22,10 +22,8 @@
 **附fabric.js使用笔记：**[点击打开](https://github.com/vipstone/drawingboard/blob/master/fabricjs%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.md)
 
 
-## 说明 ##
-html+js+css，基于fabric.js开发完成的。
 
-## 效果预览（看下图） ##
+## 功能预览（看下图） ##
 ![](https://raw.githubusercontent.com/vipstone/drawingboard/master/drawingboard/image/demoPreview.gif)
 
 
