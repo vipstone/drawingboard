@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画板</title>
+    <style>
+        .canvas {
+            border: 1px solid rgb(170, 170, 170);
+            cursor: pointer;
+        }
+
+        .mgTop {
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/fabric.js/2.2.3/fabric.min.js"></script>
+</head>
+
+<body style="padding-left: 10px;text-align:center;">
+
+    <h1>图片加载</h1>
+
+    <div class="mgTop">
+        <canvas id="freeCanvas" class="canvas"></canvas>
+    </div>
+
+    <script>
+        var canvas = new fabric.Canvas("freeCanvas", {
+            isDrawingMode: false,
+            selection: false,
+            width: 1000,
+            height: 600
+        });
+
+        fabric.Image.fromURL('../image/tools-28.png', function (img) {
+            img.scaleToHeight(224 / 2, false);  //缩放图片高度
+            img.scaleToWidth(168 / 2, false);   //缩放图片宽度
+            canvas.add(img);
+        });
+
+    </script>
+</body>
+
+</html>

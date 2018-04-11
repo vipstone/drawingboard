@@ -14,7 +14,7 @@ freeDrawingBrush.width  自由绘笔触宽度<br>
 add(object) 添加<br>
 insertAt(object,index) 添加<br>
 remove(object) 移除<br>
-forEachObject 循环遍历 ?<br>
+forEachObject 循环遍历 <br>
 getObjects() 获取所有对象<br>
 item(int) 获取子项<br>
 isEmpty() 判断是否空画板<br>
@@ -23,27 +23,27 @@ contains(object) 查询是否包含某个元素<br>
 fabric.util.cos<br>
 fabric.util.sin<br>
 fabric.util.drawDashedLine  绘制虚线<br>
-getWidth()? setWidth()<br>
+getWidth() setWidth()<br>
 getHeight()?<br>
 clear() 清空<br>
 renderAll() 重绘<br>
-requestRenderAll() 请求重新渲染?<br>
+requestRenderAll() 请求重新渲染<br>
 rendercanvas() 重绘画板?<br>
-getCenter().top/left 获取中心坐标?<br>
-toDatalessJSON() 画板信息序列化成最小的json?<br>
+getCenter().top/left 获取中心坐标<br>
+toDatalessJSON() 画板信息序列化成最小的json<br>
 toJSON() 画板信息序列化成json<br>
 moveTo(object,index) 移动?<br>
 dispose() 释放?<br>
-setCursor() 设置手势图标?<br>
-getSelectionContext()获取选中的context?<br>
+setCursor() 设置手势图标<br>
+getSelectionContext()获取选中的context<br>
 getSelectionElement()获取选中的元素<br>
 getActiveObject() 获取选中的对象<br>
 getActiveObjects() 获取选中的多个对象<br>
-discardActiveObject()取消当前选中对象? <br>
+discardActiveObject()取消当前选中对象 <br>
 isType() 图片的类型?<br>
-setColor(color) = canvas.set("full","");?<br>
+setColor(color) = canvas.set("full","");<br>
 rotate() 设置旋转角度<br>
-setCoords() 设置坐标?<br>
+setCoords() 设置坐标<br>
 
 ----------
 
@@ -119,9 +119,15 @@ oImg.hasControls = false; 只能移动不能（编辑）操作<br>
 oImg.hasBorders = false; 去掉边框，可以正常操作<br>
 hasRotatingPoint = false; 不能被旋转<br>
 hasRotatingPoint 控制旋转点不可见<br>
+scaleToHeight(value, absolute) 缩放图片高度到value
+scaleToWidth(value, absolute) 缩放图片宽度到value
 
-demo：
-fabric.Image.fromURL("300.jpg", function (oImg) {<br>
-&nbsp;&nbsp;canvas.add(oImg);<br>
-&nbsp;&nbsp;oImg.hasControls = oImg.hasBorders = false;<br>
-});
+示例代码如下：
+
+    fabric.Image.fromURL("img.jpg", function (oImg) {
+    	img.scaleToHeight(400, false);  //缩放图片的高度到400
+    	img.scaleToWidth(400, false);   //缩放图片的宽度到400
+    	canvas.add(oImg);
+    	oImg.hasControls = oImg.hasBorders = false;
+    });
+
