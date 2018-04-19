@@ -27,13 +27,17 @@
 ![](https://raw.githubusercontent.com/vipstone/drawingboard/master/drawingboard/image/demoPreview.gif)
 
 
-
-
 <br />
 <br />
-<br />
-写在最后：各位大侠如果觉得不错，欢迎点击star.
+<font color=red size=4 face="宋体">各位大侠如果觉得不错，欢迎点击star!</font>
 
+## todo ##
+自由绘以外的图形，轨迹事件添加
 
+添加图形编辑功能
+
+mac下样式问题兼容
+
+添加撤销功能
 
 
