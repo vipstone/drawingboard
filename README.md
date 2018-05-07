@@ -33,11 +33,6 @@
 <font color=red size=4 face="宋体">各位大侠如果觉得不错，欢迎点击star!</font>
 
 ## todo ##
-自由绘以外的图形，轨迹事件添加
-
-添加图形编辑功能
-
-添加画板缩放功能（setZoom）
 
 mac下样式问题兼容
 

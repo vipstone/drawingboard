@@ -7,6 +7,9 @@
     textbox = null;
   var drawWidth = 2; //笔触宽度
   var color = "#E34F51"; //画笔颜色
+  var drawingObject = null; //当前绘制对象
+  var moveCount = 1; //绘制移动计数器
+  var doDrawing = false; // 绘制状态
 
   //初始化画板
   var canvas = new fabric.Canvas("c", {
@@ -27,13 +30,29 @@
     var xy = transformMouse(options.e.offsetX, options.e.offsetY);
     mouseFrom.x = xy.x;
     mouseFrom.y = xy.y;
+    doDrawing = true;
   });
   canvas.on("mouse:up", function(options) {
     var xy = transformMouse(options.e.offsetX, options.e.offsetY);
     mouseTo.x = xy.x;
     mouseTo.y = xy.y;
+    // drawing();
+    drawingObject = null;
+    moveCount = 1;
+    doDrawing = false;
+  });
+  canvas.on("mouse:move", function(options) {
+    if (moveCount % 2 && !doDrawing) {
+      //减少绘制频率
+      return;
+    }
+    moveCount++;
+    var xy = transformMouse(options.e.offsetX, options.e.offsetY);
+    mouseTo.x = xy.x;
+    mouseTo.y = xy.y;
     drawing();
   });
+
   canvas.on("selection:created", function(e) {
     if (e.target._objects) {
       //多选删除
@@ -97,6 +116,9 @@
 
   //绘画方法
   function drawing() {
+    if (drawingObject) {
+      canvas.remove(drawingObject);
+    }
     var canvasObject = null;
     switch (drawType) {
       case "arrow": //箭头
@@ -228,6 +250,7 @@
     if (canvasObject) {
       // canvasObject.index = getCanvasObjectIndex();
       canvas.add(canvasObject); //.setActiveObject(canvasObject)
+      drawingObject = canvasObject;
     }
   }
 
