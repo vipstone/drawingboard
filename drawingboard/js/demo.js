@@ -1,4 +1,4 @@
-(function () {
+(function() {
   //变量声明
   var mouseFrom = {},
     mouseTo = {},
@@ -15,20 +15,26 @@
     selectable: false,
     selection: false
   });
+
+  window.canvas = canvas;
+  window.zoom = window.zoom ? window.zoom : 1;
+
   canvas.freeDrawingBrush.color = color; //设置自由绘颜色
   canvas.freeDrawingBrush.width = drawWidth;
 
   //绑定画板事件
-  canvas.on("mouse:down", function (options) {
-    mouseFrom.x = options.e.clientX;
-    mouseFrom.y = options.e.clientY;
+  canvas.on("mouse:down", function(options) {
+    var xy = transformMouse(options.e.offsetX, options.e.offsetY);
+    mouseFrom.x = xy.x;
+    mouseFrom.y = xy.y;
   });
-  canvas.on("mouse:up", function (options) {
-    mouseTo.x = options.e.clientX;
-    mouseTo.y = options.e.clientY;
+  canvas.on("mouse:up", function(options) {
+    var xy = transformMouse(options.e.offsetX, options.e.offsetY);
+    mouseTo.x = xy.x;
+    mouseTo.y = xy.y;
     drawing();
   });
-  canvas.on("selection:created", function (e) {
+  canvas.on("selection:created", function(e) {
     if (e.target._objects) {
       //多选删除
       var etCount = e.target._objects.length;
@@ -42,14 +48,19 @@
     canvas.discardActiveObject(); //清楚选中框
   });
 
+  //坐标转换
+  function transformMouse(mouseX, mouseY) {
+    return { x: mouseX / window.zoom, y: mouseY / window.zoom };
+  }
+
   //绑定工具事件
   jQuery("#toolsul")
     .find("li")
-    .on("click", function () {
+    .on("click", function() {
       //设置样式
       jQuery("#toolsul")
         .find("li>i")
-        .each(function () {
+        .each(function() {
           jQuery(this).attr("class", jQuery(this).attr("data-default"));
         });
       jQuery(this)
