@@ -43,6 +43,5 @@ function setZoom(canvas) {
 
 //监听窗体变化
 window.onresize = function() {
-  //   this.console.log(jQuery("#canvasDiv").height() + " w:" + jQuery("#canvasDiv").width());
   setZoom(window.canvas);
 };
