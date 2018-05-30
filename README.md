@@ -1,5 +1,8 @@
 ## 简介 ##
 基于canvas的高级画板程序.
+
+Demo:https://vipstone.github.io/drawingboard/drawingboard/index.html
+
 ## 功能 ##
 - 全局绘制颜色选择<br />
 - 护眼模式、网格模式切换<br />
