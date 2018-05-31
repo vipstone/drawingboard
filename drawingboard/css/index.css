@@ -239,3 +239,94 @@
   text-align: center;
   background-color: #ffffff;
 }
+
+/********* 添加对错号 **************/
+.icon-right-black{
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background-image: url(../image/right.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-right-select{
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background-image: url(../image/right-sel.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-wrong-black{
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background-image: url(../image/wrong.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-wrong-select{
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background-image: url(../image/wrong-sel.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-right-small-black{
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url(../image/right-small.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-right-small-select{
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url(../image/right-small-sel.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-wrong-small-black{
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url(../image/wrong-small.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-wrong-small-select{
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url(../image/wrong-small-sel.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-submit-black{
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url(../image/submit.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+
+.icon-submit-select{
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url(../image/submit-sel.png);
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}

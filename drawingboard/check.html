@@ -1,0 +1,130 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>作业批改</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body style="background-color: #E5E4E5;overflow-x: hidden;">
+
+    <div style="margin-top:10px;">
+        <div style="width:50px;float:left;">
+            <ul id="toolsul" class="tools">
+
+                <li data-type="right" class="active" title="整题正确">
+                    <i class="icon-right-select" data-default='icon-right-black'></i>
+                </li>
+                <li data-type="wrong" title="整题错误">
+                    <i class="icon-wrong-black" data-default='icon-wrong-black'></i>
+                </li>
+                <li data-type="smallright" title="题目内单个正确">
+                    <i class="icon-right-small-black" data-default='icon-right-small-black'></i>
+                </li>
+                <li data-type="smallwrong" title="题目内单个错误">
+                    <i class="icon-wrong-small-black" data-default='icon-wrong-small-black'></i>
+                </li>
+                <li data-type="rectangle" title="错误题圈定">
+                    <i class="icon-tools icon-square-black" data-default="icon-tools icon-square-black"></i>
+                </li>
+
+                <li data-type="remove" title="橡皮擦">
+                    <i class="icon-tools icon-remove-black" data-default='icon-tools icon-remove-black'></i>
+                </li>
+
+                <li onclick="cutFun()" title="提交">
+                    <i class="icon-submit-black" data-default='icon-submit-black'></i>
+                </li>
+            </ul>
+
+        </div>
+        <div id="canvasDiv" class="canvasDiv" style="width:95%;height: auto;">
+            <canvas id="c" width="1920" height="1080">请使用支持HTML5的浏览器</canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/fabric.js/2.1.0/fabric.min.js"></script>
+    <script src="js/check.js"></script>
+    <script src="js/canvasZoom.js"></script>
+    <script>
+
+        function cutFun() {
+
+
+            var objs = canvas.getObjects();
+            console.log("org objects length" + canvas.getObjects().length);
+            var checkObj = [];
+            for (var i = 0; i < objs.length; i++) {
+                if (objs[i].type && objs[i].type != 'image') {
+                    checkObj.push(objs[i]);
+                }
+            }
+            checkObj.sort(function (x, y) { return x.top - y.top; }); //根据控件top排序
+            console.log(checkObj);
+
+            var checkJson = [];
+            var itemSmallRight = 0, itemSmallWrong = 0, prevSmallType = true;
+            for (var i = 0; i < checkObj.length; i++) {
+                switch (checkObj[i].type) {
+                    case 'smallright':
+                        ++itemSmallRight;
+                        break;
+                    case 'smallwrong':
+                        ++itemSmallWrong;
+                        break;
+                    case 'right':
+                    case 'wrong':
+                    case 'rectangle': //框
+                        prevSmallType = false;
+                        break;
+                    default:
+                        break;
+                }
+                if (prevSmallType == false || i == (checkObj.length - 1)) {
+                    //上一个为整题对/错 || 最后一题
+                    if (itemSmallRight > 0 || itemSmallWrong > 0) {
+                        checkJson.push({ 'r': 0, 'w': 0, 'sr': itemSmallRight, 'sw': itemSmallWrong });
+                        itemSmallRight = 0, itemSmallWrong = 0;
+                    }
+                    prevSmallType = true;
+                }
+                //录入本次大题
+                if (checkObj[i].type == 'right') {
+                    checkJson.push({ 'r': 1, 'w': 0, 'sr': 0, 'sw': 0 });
+                } else if (checkObj[i].type == 'wrong') {
+                    checkJson.push({ 'r': 0, 'w': 1, 'sr': 0, 'sw': 0 });
+                }
+            }
+
+            var msg = "";
+            for (var i = 0; i < checkJson.length; i++) {
+                msg += ("第" + (i + 1) + "题：");
+                if (checkJson[i].r) {
+                    msg += "全对";
+                } else if (checkJson[i].w) {
+                    msg += "全错";
+                } else {
+                    msg += "对：" + checkJson[i].sr + "个" + "，错：" + checkJson[i].sw + "个";
+                }
+                msg += "\n";
+            }
+            alert(msg);
+
+
+            // var dataURL = canvas.toDataURL({
+            //     format: 'png',
+            //     left: 80,
+            //     top: 80,
+            //     width: 200,
+            //     height: 200
+            // });
+            // document.write('<img src="' + dataURL + '"/>');
+
+        }
+
+    </script>
+
+</body>
+
+</html>

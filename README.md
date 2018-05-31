@@ -1,7 +1,11 @@
 ## 简介 ##
 基于canvas的高级画板程序.
 
-演示地址：https://vipstone.github.io/drawingboard/drawingboard/index.html
+## 在线演示 ##
+
+高级画板：https://vipstone.github.io/drawingboard/drawingboard/index.html
+
+作业批改：https://vipstone.github.io/drawingboard/drawingboard/check.html
 
 ## 功能 ##
 - 全局绘制颜色选择<br />
@@ -28,7 +32,7 @@
 
 
 
-## 功能预览（看下图） ##
+## 功能预览 ##
 ![](https://raw.githubusercontent.com/vipstone/drawingboard/master/drawingboard/image/demoPreview.gif)
 
 

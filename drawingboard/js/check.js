@@ -2,22 +2,27 @@
   //变量声明
   var mouseFrom = {},
     mouseTo = {},
-    drawType = null,
+    drawType = 'right', //画板绘制类型
     canvasObjectIndex = 0,
     textbox = null;
-  var drawWidth = 2; //笔触宽度
+  var drawWidth = 4; //笔触宽度
   var color = "#E34F51"; //画笔颜色
   var drawingObject = null; //当前绘制对象
   var moveCount = 1; //绘制移动计数器
   var doDrawing = false; // 绘制状态
+  var rightColor = "#006400", wrongColor = "#E34F51";
 
   //初始化画板
   var canvas = new fabric.Canvas("c", {
-    isDrawingMode: true,
+    isDrawingMode: false,
     skipTargetFind: true,
     selectable: false,
     selection: false
   });
+
+  fabric.Image.fromURL('../image/exam.jpg', function (img) {
+    canvas.add(img);
+  }); //, { crossOrigin: 'anonymous' }
 
   window.canvas = canvas;
   window.zoom = window.zoom ? window.zoom : 1;
@@ -36,7 +41,7 @@
     var xy = transformMouse(options.e.offsetX, options.e.offsetY);
     mouseTo.x = xy.x;
     mouseTo.y = xy.y;
-    // drawing();
+    drawing();
     drawingObject = null;
     moveCount = 1;
     doDrawing = false;
@@ -242,6 +247,98 @@
         textbox.enterEditing();
         textbox.hiddenTextarea.focus();
         break;
+      case 'right': //整题正确
+        var step = 30;
+        var path =
+          "M " +
+          (mouseFrom.x - step) +
+          " " +
+          (mouseFrom.y - step) +
+          " L " +
+          mouseFrom.x +
+          " " +
+          mouseFrom.y +
+          " L " +
+          (mouseFrom.x + step * 2) +
+          " " +
+          (mouseFrom.y - step * 2);
+        canvasObject = new fabric.Path(path, {
+          stroke: rightColor,
+          strokeWidth: drawWidth,
+          fill: "rgba(255, 255, 255, 0)"
+        });
+        break;
+      case 'wrong': //整题错误
+        var step = 30;
+        var path =
+          "M " +
+          (mouseFrom.x - step) +
+          " " +
+          (mouseFrom.y - step) +
+          " L " +
+          (mouseFrom.x + step) +
+          " " +
+          (mouseFrom.y + step) +
+          "M " +
+          (mouseFrom.x + step) +
+          " " +
+          (mouseFrom.y - step) +
+          " L " +
+          (mouseFrom.x - step) +
+          " " +
+          (mouseFrom.y + step);
+        canvasObject = new fabric.Path(path, {
+          stroke: wrongColor,
+          strokeWidth: drawWidth,
+          fill: "rgba(255, 255, 255, 0)"
+        });
+        break;
+      case 'smallright': //题目内单个正确
+        var step = 10;
+        var path =
+          "M " +
+          (mouseFrom.x - step) +
+          " " +
+          (mouseFrom.y - step) +
+          " L " +
+          mouseFrom.x +
+          " " +
+          mouseFrom.y +
+          " L " +
+          (mouseFrom.x + step * 2) +
+          " " +
+          (mouseFrom.y - step * 2);
+        canvasObject = new fabric.Path(path, {
+          stroke: rightColor,
+          strokeWidth: drawWidth,
+          fill: "rgba(255, 255, 255, 0)"
+        });
+        break;
+      case 'smallwrong': //题目内单个错误
+        var step = 10;
+        var path =
+          "M " +
+          (mouseFrom.x - step) +
+          " " +
+          (mouseFrom.y - step) +
+          " L " +
+          (mouseFrom.x + step) +
+          " " +
+          (mouseFrom.y + step) +
+          "M " +
+          (mouseFrom.x + step) +
+          " " +
+          (mouseFrom.y - step) +
+          " L " +
+          (mouseFrom.x - step) +
+          " " +
+          (mouseFrom.y + step);
+        canvasObject = new fabric.Path(path, {
+          stroke: wrongColor,
+          strokeWidth: drawWidth,
+          fill: "rgba(255, 255, 255, 0)"
+        });
+        break;
       case "remove":
         break;
       default:
@@ -249,6 +346,7 @@
     }
     if (canvasObject) {
       // canvasObject.index = getCanvasObjectIndex();
+      canvasObject.type = drawType;
       canvas.add(canvasObject); //.setActiveObject(canvasObject)
       drawingObject = canvasObject;
     }
