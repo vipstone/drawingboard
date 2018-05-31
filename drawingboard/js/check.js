@@ -20,7 +20,7 @@
     selection: false
   });
 
-  fabric.Image.fromURL('image/exam.jpg', function (img) {
+  fabric.Image.fromURL('http://icdn.apigo.cn/paper.png?1', function (img) {
     canvas.add(img);
   }); //, { crossOrigin: 'anonymous' }
 
