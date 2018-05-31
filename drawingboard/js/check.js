@@ -5,7 +5,7 @@
     drawType = 'right', //画板绘制类型
     canvasObjectIndex = 0,
     textbox = null;
-  var drawWidth = 4; //笔触宽度
+  var drawWidth = 2; //笔触宽度
   var color = "#E34F51"; //画笔颜色
   var drawingObject = null; //当前绘制对象
   var moveCount = 1; //绘制移动计数器
@@ -22,7 +22,7 @@
 
   fabric.Image.fromURL('http://icdn.apigo.cn/paper.png?1', function (img) {
     canvas.add(img);
-  }); //, { crossOrigin: 'anonymous' }
+  }, { crossOrigin: 'anonymous' });
 
   window.canvas = canvas;
   window.zoom = window.zoom ? window.zoom : 1;
@@ -63,11 +63,16 @@
       //多选删除
       var etCount = e.target._objects.length;
       for (var etindex = 0; etindex < etCount; etindex++) {
+        if (e.target._objects[etindex].type == "image") {
+          continue;
+        }
         canvas.remove(e.target._objects[etindex]);
       }
     } else {
       //单选删除
-      canvas.remove(e.target);
+      if (e.target.type != "image") {
+        canvas.remove(e.target);
+      }
     }
     canvas.discardActiveObject(); //清楚选中框
   });
