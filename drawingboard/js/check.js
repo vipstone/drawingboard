@@ -20,7 +20,7 @@
     selection: false
   });
 
-  fabric.Image.fromURL('/image/exam.jpg', function (img) {
+  fabric.Image.fromURL('image/exam.jpg', function (img) {
     canvas.add(img);
   }); //, { crossOrigin: 'anonymous' }
 
