@@ -1,0 +1,24 @@
+{
+    "subject": [
+        {
+            "r": 0,
+            "w": 0,
+            "sr": 2,
+            "sw": 3,
+            "err": [
+                {
+                    "id": 1,
+                    "url": "http://www.baidu.com/log.png",
+                    "x": 12,
+                    "y": 12
+                }
+            ],
+            "pageimg": {
+                "url": "http://www.baidu.com/log.png",
+                "w": 166,
+                "h": 188
+            }
+        }
+    ],
+    "font": 10
+}
