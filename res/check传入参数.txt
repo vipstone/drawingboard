@@ -1,0 +1,7 @@
+http://xxx/check.html?img=[{i:'http://icdn.apigo.cn/paper.png',s:'http://icdn.apigo.cn/paper.png'},{i:'http://icdn.apigo.cn/paper.png',s:'http://icdn.apigo.cn/paper.png'}]&subject=语文
+
+
+注意：img、subject的值需要encodeURIComponent编码。
+
+最终地址：
+http://localhost:4001/check.html?img=%5B%7Bi%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%2Cs%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%7D%2C%7Bi%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%2Cs%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%7D%5D&subject=%E8%AF%AD%E6%96%87

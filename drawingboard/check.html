@@ -235,6 +235,22 @@
 <script type="text/javascript" src="../js/check/swiper.min.js"></script>
 <script type="text/javascript">
 
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]);
+        return null;
+    }
+
+    var img = decodeURIComponent(getUrlParam('img'));
+    var subject = decodeURIComponent(getUrlParam('subject'));
+    if (!img && (img = JSON.parse(img))) {
+        alert("网络错误");
+    }
+    alert(img[0].i);
+
+
 
     $(function () {
         mySwiper();
