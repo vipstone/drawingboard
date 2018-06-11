@@ -1,202 +1,278 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"
+    />
     <title>作业批改</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/check.css" />
 </head>
 
-<body style="background-color: #E5E4E5;overflow-x: hidden;">
-
-    <div style="margin-top:10px;">
-        <div style="width:50px;float:left;">
-            <ul id="toolsul" class="tools">
-
-                <li data-type="right" class="active" title="整题正确">
-                    <i class="icon-right-select" data-default='icon-right-black'></i>
-                </li>
-                <li data-type="wrong" title="整题错误">
-                    <i class="icon-wrong-black" data-default='icon-wrong-black'></i>
-                </li>
-                <li data-type="smallright" title="题目内单个正确">
-                    <i class="icon-right-small-black" data-default='icon-right-small-black'></i>
-                </li>
-                <li data-type="smallwrong" title="题目内单个错误">
-                    <i class="icon-wrong-small-black" data-default='icon-wrong-small-black'></i>
-                </li>
-                <li data-type="rectangle" title="错题圈定">
-                    <i class="icon-tools icon-square-black" data-default="icon-tools icon-square-black"></i>
-                </li>
-
-                <li data-type="remove" title="橡皮擦">
-                    <i class="icon-tools icon-remove-black" data-default='icon-tools icon-remove-black'></i>
-                </li>
-
-                <li onclick="cutFun()" title="成绩查看">
-                    <i class="icon-submit-black" data-default='icon-submit-black'></i>
-                </li>
-            </ul>
-
+<body id="data-box">
+    <div class="container">
+        <div class="fn-left handle_menu_wrap">
+            <div class="menu_title">
+                工具
+            </div>
+            <div class="handle_btn_list">
+                <div class="handle_btn active">
+                    <div class="handle_btn_img">
+                        <img src="../image/check/all-true.png" class="center-self" alt="">
+                    </div>
+                    <div class="handle_btn_name">
+                        全对
+                    </div>
+                </div>
+                <div class="handle_btn">
+                    <div class="handle_btn_img">
+                        <img src="../image/check/label-icon.png" class="center-self" alt="">
+                    </div>
+                    <div class="handle_btn_name">
+                        错题标注
+                    </div>
+                </div>
+                <div class="handle_btn">
+                    <div class="handle_btn_img">
+                        <img src="../image/check/all-wrong.png" class="center-self" alt="">
+                    </div>
+                    <div class="handle_btn_name">
+                        全错
+                    </div>
+                </div>
+                <div class="handle_btn">
+                    <div class="handle_btn_img">
+                        <img src="../image/check/true-icon.png" class="center-self" alt="">
+                    </div>
+                    <div class="handle_btn_name">
+                        正确处
+                    </div>
+                </div>
+                <div class="handle_btn">
+                    <div class="handle_btn_img">
+                        <img src="../image/check/wrong-icon.png" class="center-self" alt="">
+                    </div>
+                    <div class="handle_btn_name">
+                        错误处
+                    </div>
+                </div>
+                <div class="handle_btn">
+                    <div class="handle_btn_img">
+                        <img src="../image/check/erasure-icon.png" class="center-self" alt="">
+                    </div>
+                    <div class="handle_btn_name">
+                        擦除
+                    </div>
+                </div>
+                <div class="handle_btn">
+                    <div class="handle_btn_img">
+                        <img src="../image/check/help-icon.png" class="center-self" alt="">
+                    </div>
+                    <div class="handle_btn_name">
+                        帮助
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="canvasDiv" class="canvasDiv" style="width:auto;height: auto;">
-            <canvas id="c" height="890">请使用支持HTML5的浏览器</canvas>
+        <div class="fn-right correct_main">
+            <div class="wrong_list_wrap">
+                <div class="wrong_list_title">
+                    <i class="before_icon fn-left"></i>
+                    <div>错题</div>
+                </div>
+                <div class="wrong_list">
+                    <div class="wrong_list_inner">
+                        <div class="wrong_item">
+                            <i class="serial_number fn-left">1</i>
+                            <div class="wrong_content fn-clear">
+                                <div class="wrong_label fn-left">
+                                    审题不清
+                                </div>
+                                <div class="wrong_label fn-left">
+                                    缺乏解题技巧
+                                </div>
+                                <div class="wrong_label fn-left">
+                                    遗漏
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wrong_item">
+                            <i class="serial_number fn-left">2</i>
+                            <div class="wrong_content fn-clear">
+                                <div class="wrong_label fn-left">
+                                    审题不清
+                                </div>
+                                <div class="wrong_label fn-left">
+                                    缺乏解题技巧
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main_score">
+                <div class="main_score_title">
+                    <i class="before_icon fn-left"></i>
+                    <div>字迹评分</div>
+                </div>
+                <div class="main_score_num_list fn-clear">
+                    <div class="main_score_num_item fn-left">1</div>
+                    <div class="main_score_num_item fn-left">2</div>
+                    <div class="main_score_num_item fn-left">3</div>
+                    <div class="main_score_num_item fn-left">4</div>
+                    <div class="main_score_num_item fn-left">5</div>
+                    <div class="main_score_num_item fn-left">6</div>
+                    <div class="main_score_num_item fn-left">7</div>
+                    <div class="main_score_num_item fn-left">8</div>
+                    <div class="main_score_num_item fn-left">9</div>
+                    <div class="main_score_num_item fn-left">10</div>
+                </div>
+            </div>
+            <div class="small_btn_blue confirm">
+                确认完成
+            </div>
+            <div class="more_btn"></div>
+            <div class="other_btn_wrap fn-hide">
+                <div class="mark_exce">
+                    异常标记
+                </div>
+                <div class="give_up">
+                    放弃任务
+                </div>
+            </div>
         </div>
-        <div style="color:red;margin-top: 10px;margin-left: 60px;">注意：错题必须使用工具栏“错题圈定”圈定错题。</div>
-        <div id="wrongImg"></div>
+        <div class="fn-right preview">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide active-nav">
+                        <div class="slide_inner">
+                            <img src="../image/check/test1.jpg" class="center-self">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide_inner">
+                            <img src="../image/check/test2.jpg" class="center-self">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide_inner">
+                            <img src="../image/check/test3.jpg" class="center-self">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide_inner">
+                            <img src="../image/check/test4.jpg" class="center-self">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide_inner">
+                            <img src="../image/check/test5.jpg" class="center-self">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="homework_total center-self-x">
+                <span>1</span>/
+                <span>5</span>
+            </div>
+        </div>
+        <div class="view">
+            <div class="swiper-container center-self">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="../image/check/test1.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../image/check/test2.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../image/check/test3.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../image/check/test4.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../image/check/test5.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/fabric.js/2.1.0/fabric.min.js"></script>
-    <script src="js/check.js"></script>
-    <script src="js/canvasZoom.js"></script>
-    <script src="https://unpkg.com/qiniu-js@2.2.2/dist/qiniu.min.js"></script>
-    <script>
-
-        var qiniuToken = undefined;
-        jQuery.ajax({
-            type: "GET",
-            cache: false,
-            dataType: "jsonp",
-            url: 'http://127.0.0.1:8360/qiniu/gettoken',
-            data: {},
-            success: function (res) {
-                qiniuToken = res.token;
-            }
-        });
-
-        function cutFun() {
-            var objs = canvas.getObjects();
-            var checkObj = [];
-            for (var i = 0; i < objs.length; i++) {
-                if (objs[i].type && objs[i].type != 'image') {
-                    checkObj.push(objs[i]);
-                }
-            }
-            checkObj.sort(function (x, y) { return x.top - y.top; }); //根据控件top排序
-
-            var checkJson = [];
-            var itemSmallRight = 0, itemSmallWrong = 0, prevSmallType = true;
-            for (var i = 0; i < checkObj.length; i++) {
-                switch (checkObj[i].type) {
-                    case 'smallright':
-                        ++itemSmallRight;
-                        break;
-                    case 'smallwrong':
-                        ++itemSmallWrong;
-                        break;
-                    case 'right':
-                    case 'wrong':
-                    case 'rectangle': //框
-                        prevSmallType = false;
-                        break;
-                    default:
-                        break;
-                }
-                if (prevSmallType == false || i == (checkObj.length - 1)) {
-                    //上一个为整题对/错 || 最后一题
-                    if (itemSmallRight > 0 || itemSmallWrong > 0) {
-                        checkJson.push({ 'r': 0, 'w': 0, 'sr': itemSmallRight, 'sw': itemSmallWrong, 'url': '' });
-                        itemSmallRight = 0, itemSmallWrong = 0;
-                    }
-                    prevSmallType = true;
-                }
-                //录入本次大题
-                if (checkObj[i].type == 'right') {
-                    checkJson.push({ 'r': 1, 'w': 0, 'sr': 0, 'sw': 0, 'url': '' });
-                } else if (checkObj[i].type == 'wrong') {
-                    checkJson.push({ 'r': 0, 'w': 1, 'sr': 0, 'sw': 0, 'url': '' });
-                }
-                //圈定的错图上传
-                if (checkObj[i].type == 'rectangle') {
-                    toImgUpload(checkObj[i], checkObj[i].left, checkObj[i].top, checkObj[i].width, checkObj[i].height);
-                }
-            }
-
-            // var msg = "";
-            // for (var i = 0; i < checkJson.length; i++) {
-            //     msg += ("第" + (i + 1) + "题：");
-            //     if (checkJson[i].r) {
-            //         msg += "全对";
-            //     } else if (checkJson[i].w) {
-            //         msg += "全错";
-            //     } else {
-            //         msg += "对：" + checkJson[i].sr + "个" + "，错：" + checkJson[i].sw + "个";
-            //     }
-            //     msg += "\n";
-            // }
-            // if (msg) {
-            //     alert(msg);
-            // }
-
-        }
-
-        //转换成图片并上传
-        function toImgUpload(cObj, left, top, width, height) {
-            canvas.remove(cObj);
-            var base64 = canvas.toDataURL({
-                format: 'png',
-                left: left - 12,
-                top: top - 10,
-                width: width,
-                height: height
-            });
-
-            // data:image/png;base64,
-
-            jQuery("#wrongImg").append('<img src="' + base64 + '"/><br />');
-            canvas.add(cObj);
-
-            //上传，返回地址
-            var putExtra = {
-                fname: "",
-                params: {},
-                mimeType: [] || null
-            };
-            var config = {
-                useCdnDomain: true
-            };
-            // var contentType = 'image/png';
-            // var blob = base64ToBlob(base64.replace('data:image/png;base64,', ''), contentType);
-
-            // var observable = qiniu.upload(blob, "test5.png", qiniuToken, putExtra, config);
-            // var subscription = observable.subscribe({
-            //     next(res) {
-            //         console.log(res);
-            //     },
-            //     error(err) {
-            //         console.log(err);
-            //     },
-            //     complete(res) {
-            //         console.log(res);
-            //     }
-            // });
-
-            // return "";
-        }
-
-        //base64转blob
-        function base64ToBlob(base64, contentType, sliceSize) {
-            contentType = contentType || '';
-            sliceSize = sliceSize || 512;
-            var byteCharacters = atob(base64);
-            var byteArrays = [];
-
-            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                var slice = byteCharacters.slice(offset, offset + sliceSize);
-                var byteNumbers = new Array(slice.length);
-                for (var i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
-                }
-                var byteArray = new Uint8Array(byteNumbers);
-                byteArrays.push(byteArray);
-            }
-            var blob = new Blob(byteArrays, { type: contentType });
-            return blob;
-        }
-
-
-    </script>
-
+    <div class="mark_error_modal fn-hide">
+        <div class="mark_error_box center-self">
+            <div class="mark_error_box_title">
+                <div class="fn-left">
+                    选择错误标签
+                </div>
+                <div class="fn-right close_icon fn-clear">
+                    <img src="../image/check/close-icon.png" class="fn-left" alt="">
+                </div>
+            </div>
+            <div class="wrong_label_list">
+                <div class="wrong_label fn-left">遗漏</div>
+                <div class="wrong_label fn-left">理解不清晰</div>
+                <div class="wrong_label fn-left">粗心大意</div>
+                <div class="wrong_label fn-left">审题不清</div>
+                <div class="wrong_label fn-left">基础不牢</div>
+                <div class="wrong_label fn-left">积累不够</div>
+                <div class="wrong_label fn-left">运用错误</div>
+                <div class="wrong_label fn-left">区分错误</div>
+                <div class="wrong_label fn-left">缺乏逻辑</div>
+            </div>
+            <div class="small_btn_blue center-self-x confirm_mark">
+                确认
+            </div>
+        </div>
+    </div>
 </body>
+<script type="text/javascript" src="../js/check/JSfontsize.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/check/Rivets.js"></script>
+<script type="text/javascript" src="../js/check/tool.js"></script>
+<script type="text/javascript" src="../js/check/swiper.min.js"></script>
+<script type="text/javascript">
+
+
+    $(function () {
+        mySwiper();
+    });
+
+    function mySwiper() {
+        var viewSwiper = new Swiper('.view .swiper-container', {
+            slidesPerView: 1,
+            resistance: '100%',
+            onSlideChangeStart: function () {
+                $('.homework_total span:first-child').text(parseInt(viewSwiper.activeIndex) + 1)
+                updateNavPosition(viewSwiper, previewSwiper);
+            }
+        })
+        var previewSwiper = new Swiper('.preview .swiper-container', {
+            visibilityFullFit: true,
+            slidesPerView: 'auto',
+            onlyExternal: true,
+            mode: 'vertical',
+            onSlideClick: function () {
+                viewSwiper.swipeTo(previewSwiper.clickedSlideIndex);
+            }
+        })
+    }
+
+    function updateNavPosition(view, preview) {
+        $('.preview .active-nav').removeClass('active-nav');
+        var activeNav = $('.preview .swiper-slide').eq(view.activeIndex).addClass('active-nav');
+        if (!activeNav.hasClass('swiper-slide-visible')) {
+            if (activeNav.index() > preview.activeIndex) {
+                var thumbsPerNav = Math.floor(preview.height / activeNav.height()) - 1;
+                preview.swipeTo(activeNav.index() - thumbsPerNav);
+            } else {
+                preview.swipeTo(activeNav.index());
+            }
+        }
+    }
+
+</script>
 
 </html>

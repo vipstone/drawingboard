@@ -26,6 +26,7 @@
 
   window.canvas = canvas;
   window.zoom = window.zoom ? window.zoom : 1;
+  window.drawType = drawType;
 
   canvas.freeDrawingBrush.color = color; //设置自由绘颜色
   canvas.freeDrawingBrush.width = drawWidth;
@@ -106,6 +107,7 @@
             .replace("black", "select")
         );
       drawType = jQuery(this).attr("data-type");
+      window.drawType = drawType;
       canvas.isDrawingMode = false;
       if (textbox) {
         //退出文本编辑状态
@@ -150,93 +152,6 @@
           stroke: color,
           strokeWidth: drawWidth
         });
-        break;
-      case "circle": //正圆
-        var left = mouseFrom.x,
-          top = mouseFrom.y;
-        var radius = Math.sqrt((mouseTo.x - left) * (mouseTo.x - left) + (mouseTo.y - top) * (mouseTo.y - top)) / 2;
-        canvasObject = new fabric.Circle({
-          left: left,
-          top: top,
-          stroke: color,
-          fill: "rgba(255, 255, 255, 0)",
-          radius: radius,
-          strokeWidth: drawWidth
-        });
-        break;
-      case "ellipse": //椭圆
-        var left = mouseFrom.x,
-          top = mouseFrom.y;
-        var radius = Math.sqrt((mouseTo.x - left) * (mouseTo.x - left) + (mouseTo.y - top) * (mouseTo.y - top)) / 2;
-        canvasObject = new fabric.Ellipse({
-          left: left,
-          top: top,
-          stroke: color,
-          fill: "rgba(255, 255, 255, 0)",
-          originX: "center",
-          originY: "center",
-          rx: Math.abs(left - mouseTo.x),
-          ry: Math.abs(top - mouseTo.y),
-          strokeWidth: drawWidth
-        });
-        break;
-      case "square": //TODO:正方形（后期完善）
-        break;
-      case "rectangle": //长方形
-        var path =
-          "M " +
-          mouseFrom.x +
-          " " +
-          mouseFrom.y +
-          " L " +
-          mouseTo.x +
-          " " +
-          mouseFrom.y +
-          " L " +
-          mouseTo.x +
-          " " +
-          mouseTo.y +
-          " L " +
-          mouseFrom.x +
-          " " +
-          mouseTo.y +
-          " L " +
-          mouseFrom.x +
-          " " +
-          mouseFrom.y +
-          " z";
-        canvasObject = new fabric.Path(path, {
-          left: left,
-          top: top,
-          stroke: color,
-          strokeWidth: drawWidth,
-          fill: "rgba(255, 255, 255, 0)"
-        });
-        //也可以使用fabric.Rect
-        break;
-      case "rightangle": //直角三角形
-        var path = "M " + mouseFrom.x + " " + mouseFrom.y + " L " + mouseFrom.x + " " + mouseTo.y + " L " + mouseTo.x + " " + mouseTo.y + " z";
-        canvasObject = new fabric.Path(path, {
-          left: left,
-          top: top,
-          stroke: color,
-          strokeWidth: drawWidth,
-          fill: "rgba(255, 255, 255, 0)"
-        });
-        break;
-      case "equilateral": //等边三角形
-        var height = mouseTo.y - mouseFrom.y;
-        canvasObject = new fabric.Triangle({
-          top: mouseFrom.y,
-          left: mouseFrom.x,
-          width: Math.sqrt(Math.pow(height, 2) + Math.pow(height / 2.0, 2)),
-          height: height,
-          stroke: color,
-          strokeWidth: drawWidth,
-          fill: "rgba(255,255,255,0)"
-        });
-        break;
-      case "isosceles":
         break;
       case "text":
         textbox = new fabric.Textbox("", {

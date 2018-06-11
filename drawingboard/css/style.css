@@ -1,0 +1,296 @@
+html, body {
+  min-height: 100%;
+  font-family: "黑体";
+  color: #000;
+  font-size: 0.32rem;
+}
+
+.fn-left {
+  float: left;
+}
+
+
+.fn-right {
+  float: right;
+}
+
+.fn-clear:after {
+  content: ' ';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.fn-hide {
+  display: none !important;
+}
+
+.center-self {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
+
+.center-self-x {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.center-self-y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.flex-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex-con {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flex-vertical {
+  -webkit-box-orient: vertical;
+  -webkit-flex-flow: column;
+  flex-flow: column;
+}
+
+.one-text-cut {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.two-text-cut {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.three-text-cut {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.font_54 {
+  font-size: 0.54rem;
+}
+
+.font_48 {
+  font-size: 0.48rem;
+}
+
+.font_36 {
+  font-size: 0.36rem;
+}
+
+.font_34 {
+  font-size: 0.34rem;
+}
+
+.font_32 {
+  font-size: 0.32rem;
+}
+
+.font_30 {
+  font-size: 0.30rem;
+}
+
+.font_28 {
+  font-size: 0.28rem;
+}
+
+.font_24 {
+  font-size: 0.24rem;
+}
+
+.color_long {
+  color: #999999 !important;
+}
+
+.color_secondary {
+  color: #4a4a4a !important;
+}
+
+.color_important {
+  color: #000000 !important;
+}
+
+.color_blue {
+  color: #28a0ff;
+}
+
+.color_white {
+  color: #ffffff;
+}
+
+.color_danger {
+  color: #f74c31;
+}
+
+.color_orange{
+  color:#f36d00
+}
+
+.color_deep_blue {
+  color: #0073e6;
+}
+
+.bg_blue {
+  background-color: #28a0ff;
+}
+
+.bg_danger {
+  background-color: #f74c30;
+}
+
+.bg_orange {
+  background-color: #f36d00;
+}
+
+.bg_yellow {
+  background-color: #fec05d;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.disabled {
+  color: #c8c8c8 !important;
+}
+
+.small_btn_blue {
+  width: 2.7rem;
+  padding: 0.25rem 0;
+  background-color: #28a0f2;
+  border-radius: 0.08rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+  line-height: 0.5rem;
+  cursor: pointer;
+}
+
+.small_btn_blue_240 {
+  width: 2.4rem;
+  padding: 0.25rem 0;
+  background-color: #28a0f2;
+  border-radius: 0.08rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+  line-height: 0.5rem;
+  cursor: pointer;
+}
+
+.small_btn_gray_240 {
+  width: 2.4rem;
+  padding: 0.25rem 0;
+  background-color: #cccccc;
+  border-radius: 0.08rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+  line-height: 0.5rem;
+  cursor: pointer;
+}
+
+input:-webkit-autofill , textarea:-webkit-autofill, select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px transparent  inset !important;
+  background-color:transparent;
+  background-image: none;
+  transition: background-color 50000s ease-in-out 0s;
+}
+
+#point_message {
+  padding: 0 0.5rem;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  font-size: 0.36rem;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000;
+  border-radius: 9999px;
+  z-index: 9999;
+}
+
+#point_message.white {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+#confirm_modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+#confirm_box {
+  width: 11.18rem;
+  height: 6.63rem;
+  background: #fff url('../image/check/select-icon.png') no-repeat 1.24rem 1.54rem;
+  background-size: 1.2rem 1.5rem;
+  border-radius: 0.2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+#confirm_box #confirm_btn,#confirm_box #close_btn {
+  position: absolute;
+  bottom: 1.2rem;
+  width: 2.7rem;
+  height: 1.1rem;
+  border-radius: 0.08rem;
+  color: #fff;
+  line-height: 1.1rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+#confirm_box #confirm_btn {
+  background-color: #28a0f2;
+  right: 1.5rem;
+}
+
+#confirm_box #close_btn {
+  background-color: #cccccc;
+  left: 1.5rem;
+}
+
+#confirm_box #confirm_text {
+  position: absolute;
+  left: 3.14rem;
+  top: 1.66rem;
+  width: 6.81rem;
+  color: #000000;
+  font-size: 0.36rem;
+}

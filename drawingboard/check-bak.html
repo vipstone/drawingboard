@@ -1,0 +1,215 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>作业批改 - 旧版</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="http://cdn.staticfile.org/semantic-ui/2.3.1/semantic.css">
+</head>
+
+<body style="background-color: #E5E4E5;overflow-x: hidden;">
+
+    <div style="margin-top:10px;">
+        <div style="width:50px;float:left;">
+            <ul id="toolsul" class="tools">
+
+                <li data-type="right" class="active" title="整题正确">
+                    <i class="icon-right-select" data-default='icon-right-black'></i>
+                </li>
+                <li data-type="wrong" title="整题错误">
+                    <i class="icon-wrong-black" data-default='icon-wrong-black'></i>
+                </li>
+                <li data-type="smallright" title="题目内单个正确">
+                    <i class="icon-right-small-black" data-default='icon-right-small-black'></i>
+                </li>
+                <li data-type="smallwrong" title="题目内单个错误">
+                    <i class="icon-wrong-small-black" data-default='icon-wrong-small-black'></i>
+                </li>
+                <li data-type="rectangle" title="错题圈定">
+                    <i class="icon-tools icon-square-black" data-default="icon-tools icon-square-black"></i>
+                </li>
+
+                <li data-type="remove" title="橡皮擦">
+                    <i class="icon-tools icon-remove-black" data-default='icon-tools icon-remove-black'></i>
+                </li>
+
+                <li onclick="cutFun()" title="成绩查看">
+                    <i class="icon-submit-black" data-default='icon-submit-black'></i>
+                </li>
+            </ul>
+
+        </div>
+        <div id="canvasDiv" class="canvasDiv" style="width:auto;height: auto;">
+            <canvas id="c" height="890">请使用支持HTML5的浏览器</canvas>
+        </div>
+        <div style="color:red;margin-top: 10px;margin-left: 60px;">注意：错题必须使用工具栏“错题圈定”圈定错题。</div>
+        <div id="wrongImg"></div>
+
+
+
+    </div>
+
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/fabric.js/2.1.0/fabric.min.js"></script>
+    <script src="js/check.js"></script>
+    <script src="js/canvasZoom.js"></script>
+    <script src="https://unpkg.com/qiniu-js@2.2.2/dist/qiniu.min.js"></script>
+    <script src="http://cdn.staticfile.org/semantic-ui/2.3.1/semantic.js"></script>
+    <script>
+
+        var qiniuToken = undefined;
+        jQuery.ajax({
+            type: "GET",
+            cache: false,
+            dataType: "jsonp",
+            url: 'http://127.0.0.1:8360/qiniu/gettoken',
+            data: {},
+            success: function (res) {
+                qiniuToken = res.token;
+            }
+        });
+
+
+        canvas.on("mouse:up", function () {
+            if (window.drawType && (window.drawType == "wrong" || window.drawType == "smallwrong")) {
+                //错题批注
+                // $('.ui.modal').modal();
+            }
+        });
+
+        function cutFun() {
+            var objs = canvas.getObjects();
+            var checkObj = [];
+            for (var i = 0; i < objs.length; i++) {
+                if (objs[i].type && objs[i].type != 'image') {
+                    checkObj.push(objs[i]);
+                }
+            }
+            checkObj.sort(function (x, y) { return x.top - y.top; }); //根据控件top排序
+
+            var checkJson = [];
+            var itemSmallRight = 0, itemSmallWrong = 0, prevSmallType = true;
+            for (var i = 0; i < checkObj.length; i++) {
+                switch (checkObj[i].type) {
+                    case 'smallright':
+                        ++itemSmallRight;
+                        break;
+                    case 'smallwrong':
+                        ++itemSmallWrong;
+                        break;
+                    case 'right':
+                    case 'wrong':
+                    case 'rectangle': //框
+                        prevSmallType = false;
+                        break;
+                    default:
+                        break;
+                }
+                if (prevSmallType == false || i == (checkObj.length - 1)) {
+                    //上一个为整题对/错 || 最后一题
+                    if (itemSmallRight > 0 || itemSmallWrong > 0) {
+                        checkJson.push({ 'r': 0, 'w': 0, 'sr': itemSmallRight, 'sw': itemSmallWrong, 'url': '' });
+                        itemSmallRight = 0, itemSmallWrong = 0;
+                    }
+                    prevSmallType = true;
+                }
+                //录入本次大题
+                if (checkObj[i].type == 'right') {
+                    checkJson.push({ 'r': 1, 'w': 0, 'sr': 0, 'sw': 0, 'url': '' });
+                } else if (checkObj[i].type == 'wrong') {
+                    checkJson.push({ 'r': 0, 'w': 1, 'sr': 0, 'sw': 0, 'url': '' });
+                }
+                //圈定的错图上传
+                if (checkObj[i].type == 'rectangle') {
+                    toImgUpload(checkObj[i], checkObj[i].left, checkObj[i].top, checkObj[i].width, checkObj[i].height);
+                }
+            }
+
+            // var msg = "";
+            // for (var i = 0; i < checkJson.length; i++) {
+            //     msg += ("第" + (i + 1) + "题：");
+            //     if (checkJson[i].r) {
+            //         msg += "全对";
+            //     } else if (checkJson[i].w) {
+            //         msg += "全错";
+            //     } else {
+            //         msg += "对：" + checkJson[i].sr + "个" + "，错：" + checkJson[i].sw + "个";
+            //     }
+            //     msg += "\n";
+            // }
+            // if (msg) {
+            //     alert(msg);
+            // }
+
+        }
+
+        //转换成图片并上传
+        function toImgUpload(cObj, left, top, width, height) {
+            canvas.remove(cObj);
+            var base64 = canvas.toDataURL({
+                format: 'png',
+                left: left - 12,
+                top: top - 10,
+                width: width,
+                height: height
+            });
+
+            // data:image/png;base64,
+
+            jQuery("#wrongImg").append('<img src="' + base64 + '"/><br />');
+            canvas.add(cObj);
+
+            //上传，返回地址
+            var putExtra = {
+                fname: "",
+                params: {},
+                mimeType: [] || null
+            };
+            var config = {
+                useCdnDomain: true
+            };
+            // var contentType = 'image/png';
+            // var blob = base64ToBlob(base64.replace('data:image/png;base64,', ''), contentType);
+
+            // var observable = qiniu.upload(blob, "test5.png", qiniuToken, putExtra, config);
+            // var subscription = observable.subscribe({
+            //     next(res) {
+            //         console.log(res);
+            //     },
+            //     error(err) {
+            //         console.log(err);
+            //     },
+            //     complete(res) {
+            //         console.log(res);
+            //     }
+            // });
+
+            // return "";
+        }
+
+        //base64转blob
+        function base64ToBlob(base64, contentType, sliceSize) {
+            contentType = contentType || '';
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(base64);
+            var byteArrays = [];
+
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays, { type: contentType });
+            return blob;
+        }
+
+
+    </script>
+
+</body>
+
+</html>
