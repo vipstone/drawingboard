@@ -7,10 +7,10 @@
                     "w": 0,
                     "sr": 2,
                     "sw": 3,
+                    "eimg": "http://www.baidu.com/log.png",
                     "err": [
                         {
                             "id": 1,
-                            "img": "http://www.baidu.com/log.png",
                             "desc": "审题不清,技巧不清",
                             "x": 12,
                             "y": 12

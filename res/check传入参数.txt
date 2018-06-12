@@ -1,7 +1,11 @@
-http://xxx/check.html?img=[{i:'http://icdn.apigo.cn/paper.png',s:'http://icdn.apigo.cn/paper.png'},{i:'http://icdn.apigo.cn/paper.png',s:'http://icdn.apigo.cn/paper.png'}]&subject=语文
+http://xxx/check.html?img=[{"i":"http://icdn.apigo.cn/paper.png","s":"http://icdn.apigo.cn/paper.png"},{"i":"http://photo.yousi.com/2018-06-12_5b1f6999d205c.png","s":"http://photo.yousi.com/2018-06-12_5b1f6999d205c.png"}]&subject=语文
 
 
 注意：img、subject的值需要encodeURIComponent编码。
 
 最终地址：
-http://localhost:4001/check.html?img=%5B%7Bi%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%2Cs%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%7D%2C%7Bi%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%2Cs%3A'http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png'%7D%5D&subject=%E8%AF%AD%E6%96%87
+http://localhost:4001/check.html?img=%5B%7B%22i%22%3A%22http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png%22%2C%22s%22%3A%22http%3A%2F%2Ficdn.apigo.cn%2Fpaper.png%22%7D%2C%7B%22i%22%3A%22http%3A%2F%2Fphoto.yousi.com%2F2018-06-12_5b1f6999d205c.png%22%2C%22s%22%3A%22http%3A%2F%2Fphoto.yousi.com%2F2018-06-12_5b1f6999d205c.png%22%7D%5D&subject=%E8%AF%AD%E6%96%87
+
+
+
+

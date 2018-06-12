@@ -7,7 +7,6 @@
     />
     <title>作业批改</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../css/swiper.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../css/check.css" />
 </head>
@@ -18,8 +17,8 @@
             <div class="menu_title">
                 工具
             </div>
-            <div class="handle_btn_list">
-                <div class="handle_btn active">
+            <div id="tools" class="handle_btn_list">
+                <div class="handle_btn active" data-type="right">
                     <div class="handle_btn_img">
                         <img src="../image/check/all-true.png" class="center-self" alt="">
                     </div>
@@ -27,7 +26,7 @@
                         全对
                     </div>
                 </div>
-                <div class="handle_btn">
+                <div class="handle_btn" data-type="rectangle">
                     <div class="handle_btn_img">
                         <img src="../image/check/label-icon.png" class="center-self" alt="">
                     </div>
@@ -35,7 +34,7 @@
                         错题标注
                     </div>
                 </div>
-                <div class="handle_btn">
+                <div class="handle_btn" data-type="wrong">
                     <div class="handle_btn_img">
                         <img src="../image/check/all-wrong.png" class="center-self" alt="">
                     </div>
@@ -43,7 +42,7 @@
                         全错
                     </div>
                 </div>
-                <div class="handle_btn">
+                <div class="handle_btn" data-type="smallright">
                     <div class="handle_btn_img">
                         <img src="../image/check/true-icon.png" class="center-self" alt="">
                     </div>
@@ -51,7 +50,7 @@
                         正确处
                     </div>
                 </div>
-                <div class="handle_btn">
+                <div class="handle_btn" data-type="smallwrong">
                     <div class="handle_btn_img">
                         <img src="../image/check/wrong-icon.png" class="center-self" alt="">
                     </div>
@@ -59,7 +58,7 @@
                         错误处
                     </div>
                 </div>
-                <div class="handle_btn">
+                <div class="handle_btn" data-type="remove">
                     <div class="handle_btn_img">
                         <img src="../image/check/erasure-icon.png" class="center-self" alt="">
                     </div>
@@ -67,7 +66,7 @@
                         擦除
                     </div>
                 </div>
-                <div class="handle_btn">
+                <div class="handle_btn" data-type="help">
                     <div class="handle_btn_img">
                         <img src="../image/check/help-icon.png" class="center-self" alt="">
                     </div>
@@ -84,32 +83,8 @@
                     <div>错题</div>
                 </div>
                 <div class="wrong_list">
-                    <div class="wrong_list_inner">
-                        <div class="wrong_item">
-                            <i class="serial_number fn-left">1</i>
-                            <div class="wrong_content fn-clear">
-                                <div class="wrong_label fn-left">
-                                    审题不清
-                                </div>
-                                <div class="wrong_label fn-left">
-                                    缺乏解题技巧
-                                </div>
-                                <div class="wrong_label fn-left">
-                                    遗漏
-                                </div>
-                            </div>
-                        </div>
-                        <div class="wrong_item">
-                            <i class="serial_number fn-left">2</i>
-                            <div class="wrong_content fn-clear">
-                                <div class="wrong_label fn-left">
-                                    审题不清
-                                </div>
-                                <div class="wrong_label fn-left">
-                                    缺乏解题技巧
-                                </div>
-                            </div>
-                        </div>
+                    <div id="errMsg" class="wrong_list_inner">
+
                     </div>
                 </div>
             </div>
@@ -145,34 +120,8 @@
             </div>
         </div>
         <div class="fn-right preview">
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide active-nav">
-                        <div class="slide_inner">
-                            <img src="../image/check/test1.jpg" class="center-self">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slide_inner">
-                            <img src="../image/check/test2.jpg" class="center-self">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slide_inner">
-                            <img src="../image/check/test3.jpg" class="center-self">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slide_inner">
-                            <img src="../image/check/test4.jpg" class="center-self">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slide_inner">
-                            <img src="../image/check/test5.jpg" class="center-self">
-                        </div>
-                    </div>
-                </div>
+            <div id="simgDiv" class="swiper-container">
+
             </div>
             <div class="homework_total center-self-x">
                 <span>1</span>/
@@ -180,49 +129,25 @@
             </div>
         </div>
         <div class="view">
-            <div class="swiper-container center-self">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="../image/check/test1.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="../image/check/test2.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="../image/check/test3.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="../image/check/test4.jpg">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="../image/check/test5.jpg">
-                    </div>
-                </div>
+            <div id="canvasDiv" class="swiper-container center-self">
+                <!-- <canvas id="c0" height="1100" width="825">请使用支持HTML5的浏览器</canvas> -->
             </div>
         </div>
     </div>
-    <div class="mark_error_modal fn-hide">
+    <div id="errModal" class="mark_error_modal fn-hide">
         <div class="mark_error_box center-self">
             <div class="mark_error_box_title">
                 <div class="fn-left">
                     选择错误标签
                 </div>
-                <div class="fn-right close_icon fn-clear">
+                <div id="hideModal" class="fn-right close_icon fn-clear fn-hide">
                     <img src="../image/check/close-icon.png" class="fn-left" alt="">
                 </div>
             </div>
-            <div class="wrong_label_list">
-                <div class="wrong_label fn-left">遗漏</div>
-                <div class="wrong_label fn-left">理解不清晰</div>
-                <div class="wrong_label fn-left">粗心大意</div>
-                <div class="wrong_label fn-left">审题不清</div>
-                <div class="wrong_label fn-left">基础不牢</div>
-                <div class="wrong_label fn-left">积累不够</div>
-                <div class="wrong_label fn-left">运用错误</div>
-                <div class="wrong_label fn-left">区分错误</div>
-                <div class="wrong_label fn-left">缺乏逻辑</div>
+            <div id="errTags" class="wrong_label_list">
+
             </div>
-            <div class="small_btn_blue center-self-x confirm_mark">
+            <div id="errVerify" class="small_btn_blue center-self-x confirm_mark">
                 确认
             </div>
         </div>
@@ -232,62 +157,98 @@
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script type="text/javascript" src="../js/check/Rivets.js"></script>
 <script type="text/javascript" src="../js/check/tool.js"></script>
-<script type="text/javascript" src="../js/check/swiper.min.js"></script>
+<script type="text/javascript" src="js/fabric.min.js"></script>
+<script type="text/javascript" src="js/check/check.js"></script>
+
 <script type="text/javascript">
 
-    //获取url中的参数
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) return decodeURI(r[2]);
-        return null;
-    }
 
-    var img = decodeURIComponent(getUrlParam('img'));
-    var subject = decodeURIComponent(getUrlParam('subject'));
-    if (!img && (img = JSON.parse(img))) {
-        alert("网络错误");
-    }
-    alert(img[0].i);
+    jQuery(function () {
 
+        var errTagType = {
+            '语文': ['遗漏', '理解不清晰', '粗心大意', '审题不清', '基础不牢', '积累不够', '运用错误', '区分错误', '缺乏逻辑'],
+            '数学': ['计算错误', '审题错误', '遗漏', '基础不牢固', '粗心大意', '概念不清', '换算错误', '公式不熟练', '缺乏解题技巧', '书写不端正'],
+            '英语': ['粗心大意', '审题错误', '基础不牢固', '书写不规范', '单词拼写错误', '遗漏', '介词搭配错误', '单复数错误']
+        };
 
+        //获取url中的参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
 
-    $(function () {
-        mySwiper();
-    });
+        var img = decodeURIComponent(getUrlParam('img')); //图片集合
+        var subject = decodeURIComponent(getUrlParam('subject')); //科目
+        if (!img && JSON.parse(img)) {
+            alert("网络错误");
+        }
+        img = JSON.parse(img);
 
-    function mySwiper() {
-        var viewSwiper = new Swiper('.view .swiper-container', {
-            slidesPerView: 1,
-            resistance: '100%',
-            onSlideChangeStart: function () {
-                $('.homework_total span:first-child').text(parseInt(viewSwiper.activeIndex) + 1)
-                updateNavPosition(viewSwiper, previewSwiper);
-            }
-        })
-        var previewSwiper = new Swiper('.preview .swiper-container', {
-            visibilityFullFit: true,
-            slidesPerView: 'auto',
-            onlyExternal: true,
-            mode: 'vertical',
-            onSlideClick: function () {
-                viewSwiper.swipeTo(previewSwiper.clickedSlideIndex);
-            }
-        })
-    }
-
-    function updateNavPosition(view, preview) {
-        $('.preview .active-nav').removeClass('active-nav');
-        var activeNav = $('.preview .swiper-slide').eq(view.activeIndex).addClass('active-nav');
-        if (!activeNav.hasClass('swiper-slide-visible')) {
-            if (activeNav.index() > preview.activeIndex) {
-                var thumbsPerNav = Math.floor(preview.height / activeNav.height()) - 1;
-                preview.swipeTo(activeNav.index() - thumbsPerNav);
+        var simgEle = "";
+        for (var i = 0; i < img.length; i++) {
+            jQuery("#canvasDiv").append('<canvas id="c' + i + '" height="1100" width="825"></canvas>');
+            if (i == 0) {
+                switchCanvas(img[i].i, 0);
+                simgEle += '<div class="swiper-slide swiper-slide-visible swiper-slide-active active-nav">';
             } else {
-                preview.swipeTo(activeNav.index());
+                simgEle += '<div class="swiper-slide swiper-slide-visible">';
+            }
+            simgEle += '<div class="slide_inner">' +
+                '<img src="' + img[i].s + '" class="center-self"></div></div>';
+
+        }
+
+
+
+        jQuery("#simgDiv").append(simgEle);
+
+        jQuery(".swiper-slide-visible").on("click", function () {
+            jQuery(this).addClass("active-nav").siblings().removeClass("active-nav");
+            switchCanvas(img[jQuery(this).index()].i, jQuery(this).index());
+        });
+
+        //隐藏弹窗
+        jQuery("#hideModal").on("click", function () {
+            jQuery("#errModal").addClass("fn-hide");
+        });
+
+        //弹窗科目错误设置
+        if (subject && errTagType[subject] && errTagType[subject].length > 0) {
+            for (var i = 0; i < errTagType[subject].length; i++) {
+                jQuery('#errTags').append('<div name="etag" class="wrong_label fn-left">' + errTagType[subject][i] + '</div>');
             }
         }
-    }
+
+        //错误标签点击
+        jQuery("div[name=etag]").on("click", function () {
+            jQuery(this).toggleClass("active");
+        });
+
+        //错误标签选定
+        jQuery("#errVerify").on("click", function () {
+            var errTags = jQuery('#errTags').find(".active");
+            if (errTags.length <= 0) {
+                alert('请先选中标签！');
+                return false;
+            }
+            var errSonEle = '<div class="wrong_item">';
+            errSonEle += ' <i class="serial_number fn-left">' + appErrCount + '</i>';
+            errSonEle += '<div class="wrong_content fn-clear">';
+            for (var i = 0; i < errTags.length; i++) {
+                errSonEle += '<div class="wrong_label fn-left">' + jQuery(errTags[i]).text() + '</div>';
+            }
+            errSonEle += '</div></div>';
+            jQuery("#errMsg").prepend(errSonEle);
+            jQuery("#errModal").addClass("fn-hide");
+        });
+
+
+    });
+
+
+
 
 </script>
 
