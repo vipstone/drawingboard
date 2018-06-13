@@ -110,6 +110,7 @@ html,
     .view .swiper-container {
       width: 825px;
       height: 1100px;
+      top: 0;
     }
 
     .view .swiper-container img {

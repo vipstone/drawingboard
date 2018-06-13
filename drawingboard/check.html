@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="view">
-            <div id="canvasDiv" class="swiper-container center-self">
+            <div id="canvasDiv" class="swiper-container center-self-x">
             </div>
         </div>
     </div>
@@ -151,6 +151,9 @@
             </div>
         </div>
     </div>
+    <div id="testImg">
+
+    </div>
 </body>
 <script type="text/javascript" src="../js/check/fontsize.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
@@ -163,6 +166,7 @@
     jQuery(function () {
         var canvasInit = []; //已经初始化的canvas
         var uploadImage = []; //需要上传的图片集合{"name":"xxx","base64":"xxx"}
+        var baseImgUrl = "http://img.yousi.com/";
         var errTagType = {
             '语文': ['遗漏', '理解不清晰', '粗心大意', '审题不清', '基础不牢', '积累不够', '运用错误', '区分错误', '缺乏逻辑'],
             '数学': ['计算错误', '审题错误', '遗漏', '基础不牢固', '粗心大意', '概念不清', '换算错误', '公式不熟练', '缺乏解题技巧', '书写不端正'],
@@ -301,23 +305,24 @@
 
                         var objs = canvasArr[i].getObjects();
                         var checkObj = [];
-                        for (var i = 0; i < objs.length; i++) {
-                            if (objs[i].type && objs[i].type != 'image') {
-                                checkObj.push(objs[i]);
+                        for (var j = 0; j < objs.length; j++) {
+                            if (objs[j].type && objs[j].type != 'image') {
+                                checkObj.push(objs[j]);
                             } else {
-                                canvasJson.page.imgorg = objs[i]._element.src;
-                                canvasJson.page.w = objs[i].width;
-                                canvasJson.page.h = objs[i].height;
-                                //TODO:上传正在批改图
+                                var _imgName = md5(uuid.uuid() + new Date().getTime()) + ".png";
+                                canvasJson.page.imgorg = objs[j]._element.src;
+                                canvasJson.page.img = baseImgUrl + _imgName;
+                                canvasJson.page.w = objs[j].width;
+                                canvasJson.page.h = objs[j].height;
+                                addUploadImg(canvasArr[i], objs[j], _imgName, false);
                             }
                         }
 
                         checkObj.sort(function (x, y) { return x.top - y.top; }); //根据控件top排序
 
-                        var checkJson = [];
-                        var itemSmallRight = 0, itemSmallWrong = 0, prevSmallType = true;
-                        for (var i = 0; i < checkObj.length; i++) {
-                            switch (checkObj[i].type) {
+                        var itemSmallRight = 0, itemSmallWrong = 0, prevSmallType = true, errImg = "";
+                        for (var j = 0; j < checkObj.length; j++) {
+                            switch (checkObj[j].type) {
                                 case 'smallright':
                                     ++itemSmallRight;
                                     break;
@@ -326,29 +331,54 @@
                                     break;
                                 case 'right':
                                 case 'wrong':
+                                    prevSmallType = false;
+                                    break;
                                 case 'rectangle': //框
+                                    var _imgName = md5(uuid.uuid() + new Date().getTime()) + ".png";
+                                    errImg = baseImgUrl + _imgName;
+                                    addUploadImg(canvasArr[i], checkObj[j], _imgName, true);
                                     prevSmallType = false;
                                     break;
                                 default:
                                     break;
                             }
-                            if (prevSmallType == false || i == (checkObj.length - 1)) {
-                                //上一个为整题对/错 || 最后一题
+                            if (prevSmallType == false || j == (checkObj.length - 1)) {
+                                //下一题为整题对/错 || 最后一题 （结算上一题[小错/对]）
                                 if (itemSmallRight > 0 || itemSmallWrong > 0) {
-                                    checkJson.push({ 'r': 0, 'w': 0, 'sr': itemSmallRight, 'sw': itemSmallWrong, 'url': '' });
+                                    //TODO:err属性值添加
+                                    canvasJson.question.push({ 'r': 0, 'w': 0, 'sr': itemSmallRight, 'sw': itemSmallWrong, 'eimg': errImg });
+                                    errImg = "";
                                     itemSmallRight = 0, itemSmallWrong = 0;
                                 }
                                 prevSmallType = true;
                             }
                             //录入本次大题
-                            if (checkObj[i].type == 'right') {
-                                checkJson.push({ 'r': 1, 'w': 0, 'sr': 0, 'sw': 0, 'url': '' });
-                            } else if (checkObj[i].type == 'wrong') {
-                                checkJson.push({ 'r': 0, 'w': 1, 'sr': 0, 'sw': 0, 'url': '' });
+                            if (checkObj[j].type == 'right') {
+                                canvasJson.question.push({ 'r': 1, 'w': 0, 'sr': 0, 'sw': 0, 'eimg': '', 'err': [] });
+                            } else if (checkObj[j].type == 'wrong') {
+                                var errJson = [];
+                                var txt = "";
+                                var _eindex = checkObj[j].eindex;
+                                var txtCt = jQuery('#errMsg').find('.wrong_item > i:eq(' + _eindex + ')').siblings().find('div');
+
+                                for (var k = 0; k < txtCt.length; k++) {
+                                    txt += txtCt.text();
+                                    if (k != (txtCt.length - 1)) {
+                                        txt += ",";
+                                    }
+                                }
+                                errJson[0] = {
+                                    "id": _eindex,
+                                    "desc": txt,
+                                    "x": checkObj[j].left,
+                                    "y": checkObj[j].top
+                                };
+                                canvasJson.question.push({ 'r': 0, 'w': 1, 'sr': 0, 'sw': 0, 'eimg': errImg, 'err': errJson });
+                                errImg = "";
                             }
                             //圈定的错图上传
-                            if (checkObj[i].type == 'rectangle') {
-                                toImgUpload(checkObj[i], checkObj[i].left, checkObj[i].top, checkObj[i].width, checkObj[i].height);
+                            if (checkObj[j].type == 'rectangle') {
+                                toImgUpload(checkObj[j], checkObj[j].left, checkObj[j].top, checkObj[j].width, checkObj[j].height);
                             }
                         }
                         paramJson.pages.push(canvasJson);
@@ -389,6 +419,28 @@
             if (r != null) return decodeURI(r[2]);
             return null;
         }
+        //添加上传图片 （isRemove：类型bool，是否需要移除截图在添加）
+        function addUploadImg(canvas, canvasControl, imgName, isRemove) {
+            if (isRemove) {
+                canvas.remove(canvasControl);
+            }
+            var base64 = canvas.toDataURL({
+                format: 'png',
+                left: canvasControl.left,
+                top: canvasControl.top,
+                width: canvasControl.width,
+                height: canvasControl.height
+            });
+
+            uploadImage.push({ "name": imgName, "base64": base64 });
+
+            // jQuery("#testImg").append('<img src="' + base64 + '"/><br />');
+
+            if (isRemove) {
+                canvas.add(canvasControl);
+            }
+        }
+
     });
 
 

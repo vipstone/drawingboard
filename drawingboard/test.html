@@ -7,20 +7,34 @@
 </head>
 
 <body>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <div id="errMsg" class="wrong_list_inner">
+        <div class="wrong_item">
+            <i class="serial_number fn-left">18</i>
+            <div class="wrong_content fn-clear">
+                <div class="wrong_label fn-left">粗心大意</div>
+                <div class="wrong_label fn-left">运用错误</div>
+                <div class="wrong_label fn-left">区分错误</div>
+            </div>
+        </div>
+        <div class="wrong_item">
+            <i class="serial_number fn-left">1</i>
+            <div class="wrong_content fn-clear">
+                <div class="wrong_label fn-left">222</div>
+                <div class="wrong_label fn-left">审题不清</div>
+                <div class="wrong_label fn-left">基础不牢</div>
+            </div>
+        </div>
+
+    </div>
+
     <script>
-        var canvasArr = [];
-        canvasArr[1] = "2222";
-        canvasArr[0] = "111";
-        canvasArr[5] = "3333";
+        var txtCt = jQuery('#errMsg').find('.wrong_item > i:eq(1)').siblings().find('div');
+        txtCt.text(function (index, text) { return text + ","; });
+        console.log(txtCt.text());
+        txtCt.text(function (index, text) { return text.replace(",", ""); });
 
-
-        console.log(canvasArr);
-
-        for (var i = 0; i < canvasArr.length; i++) {
-            if (canvasArr[i]) {
-                console.log(canvasArr[i]);
-            }
-        }
     </script>
 </body>
 
