@@ -13,7 +13,7 @@ var rightColor = "#008B00", wrongColor = "#E34F51";
 // var modifyImg = null;//当前批改的图片
 var appErrCount = 0;//全局错误个数
 var errTextBoxArray = new Array();
-var canvasArr = [];
+var canvasArr = [];  //所有（fabric产生）的canvas对象
 
 
 //切换画板
@@ -21,33 +21,24 @@ function switchCanvas(url, index) {
   var canvasId = "c" + index;
   jQuery("#canvasDiv").find("div").addClass("fn-hide");
   jQuery("#canvasDiv").find("div").eq(index).removeClass("fn-hide");
-
-  if (jQuery("#" + canvasId).attr("init")) {
+  if (canvasArr[index]) {
+    //canvas已经存在
     window.canvas = canvasArr[index];
     return false;
   }
-
   var canvas = new fabric.Canvas(canvasId, {
     isDrawingMode: false,
     skipTargetFind: true,
     selectable: false,
     selection: false
   });
-
-  jQuery("#" + canvasId).attr("init", "true");
-
   fabric.Image.fromURL(url, function (img) {
-    // if (modifyImg) {
-    //   canvas.remove(modifyImg);
-    // }
-    // modifyImg = img;
     canvas.add(img);
   }, { crossOrigin: 'anonymous' });
-
-  window.canvas = canvas;
   canvasArr[index] = canvas;
   canvas.freeDrawingBrush.color = color; //设置自由绘颜色
   canvas.freeDrawingBrush.width = drawWidth;
+  window.canvas = canvas;
 
   //绑定画板事件
   canvas.on("mouse:down", function (options) {
@@ -64,7 +55,6 @@ function switchCanvas(url, index) {
     drawingObject = null;
     moveCount = 1;
     doDrawing = false;
-
     if (drawType.indexOf("wrong") != -1) {
       //有错题
       jQuery("#errModal").removeClass("fn-hide");
@@ -100,7 +90,6 @@ function switchCanvas(url, index) {
     mouseTo.y = xy.y;
     drawing();
   });
-
   canvas.on("selection:created", function (e) {
     if (e.target._objects) {
       //多选删除
@@ -135,31 +124,11 @@ function switchCanvas(url, index) {
     canvas.discardActiveObject(); //清楚选中框
   });
 
-  //绑定工具事件
-  jQuery("#tools").find(".handle_btn").on("click", function () {
-    //设置样式
-    jQuery(this).addClass("active").siblings().removeClass("active");
-    drawType = jQuery(this).attr("data-type");
-    window.drawType = drawType;
-    canvas.isDrawingMode = false;
-    if (drawType == "pen") {
-      canvas.isDrawingMode = true;
-    } else if (drawType == "remove") {
-      canvas.selection = true;
-      canvas.skipTargetFind = false;
-      canvas.selectable = true;
-    } else if (drawType == "help") {
-      jQuery("#c").toggleClass("fn-hide");
-    }
-    else {
-      canvas.skipTargetFind = true; //画板元素不能被选中
-      canvas.selection = false; //画板不显示选中
-    }
-  });
+  
 }
 
 window.zoom = window.zoom ? window.zoom : 1;
-window.drawType = drawType;
+// window.drawType = drawType;
 
 //坐标转换
 function transformMouse(mouseX, mouseY) {
