@@ -157,15 +157,17 @@
 </body>
 <script type="text/javascript" src="../js/check/fontsize.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/check/qiniu.min.js"></script>
 <script type="text/javascript" src="js/fabric.min.js"></script>
 <script type="text/javascript" src="js/check/canvas.js"></script>
 <script type="text/javascript" src="js/tools/md5.min.js"></script>
 <script type="text/javascript" src="js/tools/uuid.js"></script>
+<script type="text/javascript" src="js/tools/upload.js"></script>
 
 <script type="text/javascript">
     jQuery(function () {
         var canvasInit = []; //已经初始化的canvas
-        var uploadImage = []; //需要上传的图片集合{"name":"xxx","base64":"xxx"}
+        var uploadImageArray = []; //需要上传的图片集合{"name":"xxx","base64":"xxx"}
         var baseImgUrl = "http://img.yousi.com/";
         var errTagType = {
             '语文': ['遗漏', '理解不清晰', '粗心大意', '审题不清', '基础不牢', '积累不够', '运用错误', '区分错误', '缺乏逻辑'],
@@ -262,6 +264,20 @@
             }
         });
 
+        //get七牛token
+        var qiniuToken = undefined;
+        jQuery.ajax({
+            type: "GET",
+            cache: false,
+            dataType: "jsonp",
+            url: 'http://127.0.0.1:8360/qiniu/gettoken',
+            data: {},
+            success: function (res) {
+                qiniuToken = res.token;
+                console.log("qiniuToken:" + qiniuToken);
+            }
+        });
+
         //提交作业
         jQuery("#subBut").on("click", function () {
             var fs = jQuery("#fontScore").find("div.active").index() + 1;
@@ -269,7 +285,7 @@
                 alert("操作失败，请先选择字迹评分！");
                 return false;
             }
-            if (confirm("确认作业批改完成？")) {
+            if (true) { //TODO:confirm("确认作业批改完成？")
                 var paramJson = {
                     "pages": [],
                     "font": fs,
@@ -373,7 +389,11 @@
                         //这里的图片没有点击初始化
                     }
                 }
-                console.log(JSON.stringify(paramJson));
+
+                //上传图片
+                uploadImg(uploadImageArray, qiniuToken);
+
+                // console.log(JSON.stringify(paramJson));
             }
         });
         //更多操作
@@ -419,9 +439,9 @@
                 height: canvasControl.height
             });
 
-            uploadImage.push({ "name": imgName, "base64": base64 });
+            uploadImageArray.push({ "name": imgName, "base64": base64 });
 
-            // jQuery("#testImg").append('<img src="' + base64 + '"/><br />');
+            jQuery("#testImg").append('<img src="' + base64 + '"/><br />');
 
             if (isRemove) {
                 canvas.add(canvasControl);
