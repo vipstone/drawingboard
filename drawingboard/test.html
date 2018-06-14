@@ -14,10 +14,14 @@
     <button>提交</button>
 
     <script>
-        var txtCt = jQuery('#errMsg').find('.wrong_item > i[value="999"]').siblings().find('div');
-        txtCt.text(function (index, text) { return text + ","; });
-        console.log(txtCt.text());
-        txtCt.text(function (index, text) { return text.replace(",", ""); });
+        jQuery.ajax({
+            type: "POST",
+            url: "http://third.172.16.11.49.xip.io/wq.php/Record/wrongQuestion",
+            data: { "roomid": "111" },
+            success: function (res) {
+                console.log(res);
+            }
+        });
 
     </script>
 </body>

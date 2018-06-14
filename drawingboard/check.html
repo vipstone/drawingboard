@@ -390,10 +390,21 @@
                     }
                 }
 
-                //上传图片
-                uploadImg(uploadImageArray, qiniuToken);
+                //TODO:上传图片
+                // uploadImg(uploadImageArray, qiniuToken);
 
-                // console.log(JSON.stringify(paramJson));
+                // //提交数据
+                // jQuery.ajax({
+                //     type: "POST",
+                //     url: "http://third.172.16.11.49.xip.io/wq.php/Record/wrongQuestion",
+                //     data: { "val": JSON.stringify(paramJson) },
+                //     success: function (res) {
+                //         console.log(res);
+                //     }
+                // });
+
+                prompt("最终结果", JSON.stringify(paramJson));
+
             }
         });
         //更多操作
