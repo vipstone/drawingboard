@@ -94,7 +94,7 @@
                     <div>字迹评分</div>
                 </div>
                 <div id="fontScore" class="main_score_num_list fn-clear">
-                    <div class="main_score_num_item fn-left">1</div>
+                    <div class="main_score_num_item fn-left active">1</div>
                     <div class="main_score_num_item fn-left">2</div>
                     <div class="main_score_num_item fn-left">3</div>
                     <div class="main_score_num_item fn-left">4</div>
@@ -230,7 +230,7 @@
                 return false;
             }
             var errSonEle = '<div class="wrong_item">';
-            errSonEle += ' <i class="serial_number fn-left">' + appErrCount + '</i>';
+            errSonEle += ' <i class="serial_number fn-left" value="' + appErrCount + '">' + appErrCount + '</i>';
             errSonEle += '<div class="wrong_content fn-clear">';
             for (var i = 0; i < errTags.length; i++) {
                 errSonEle += '<div class="wrong_label fn-left">' + jQuery(errTags[i]).text() + '</div>';
@@ -287,22 +287,6 @@
                                 "index": i
                             }
                         };
-                        //     "question": [
-                        //         {
-                        //             "r": 0,
-                        //             "w": 0,
-                        //             "sr": 2,
-                        //             "sw": 3,
-                        //             "eimg": "http://www.baidu.com/log.png",
-                        //             "err": [
-                        //                 {
-                        //                     "id": 1,
-                        //                     "desc": "审题不清,技巧不清",
-                        //                     "x": 12,
-                        //                     "y": 12
-                        //                 }
-                        //             ]
-
                         var objs = canvasArr[i].getObjects();
                         var checkObj = [];
                         for (var j = 0; j < objs.length; j++) {
@@ -320,14 +304,16 @@
 
                         checkObj.sort(function (x, y) { return x.top - y.top; }); //根据控件top排序
 
-                        var itemSmallRight = 0, itemSmallWrong = 0, prevSmallType = true, errImg = "";
+                        var itemSmallRight = 0, itemSmallWrong = 0, prevSmallType = true, errImg = "", errIndexs = [];
                         for (var j = 0; j < checkObj.length; j++) {
                             switch (checkObj[j].type) {
                                 case 'smallright':
                                     ++itemSmallRight;
+                                    errIndexs.push(checkObj[j].eindex);
                                     break;
                                 case 'smallwrong':
                                     ++itemSmallWrong;
+                                    errIndexs.push(checkObj[j].eindex);
                                     break;
                                 case 'right':
                                 case 'wrong':
@@ -345,9 +331,22 @@
                             if (prevSmallType == false || j == (checkObj.length - 1)) {
                                 //下一题为整题对/错 || 最后一题 （结算上一题[小错/对]）
                                 if (itemSmallRight > 0 || itemSmallWrong > 0) {
-                                    //TODO:err属性值添加
-                                    canvasJson.question.push({ 'r': 0, 'w': 0, 'sr': itemSmallRight, 'sw': itemSmallWrong, 'eimg': errImg });
+                                    var errJson = [];
+                                    if (errIndexs.length > 0) {
+                                        for (var m = 0; m < errIndexs.length; m++) {
+                                            var _eindex = errIndexs[m];
+                                            var txt = getErrTagsByIndex(_eindex);
+                                            errJson.push({
+                                                "id": _eindex + 1,
+                                                "desc": txt,
+                                                "x": checkObj[m].left,
+                                                "y": checkObj[m].top
+                                            });
+                                        }
+                                    }
+                                    canvasJson.question.push({ 'r': 0, 'w': 0, 'sr': itemSmallRight, 'sw': itemSmallWrong, 'eimg': errImg, 'err': errJson });
                                     errImg = "";
+                                    errIndexs = [];
                                     itemSmallRight = 0, itemSmallWrong = 0;
                                 }
                                 prevSmallType = true;
@@ -357,18 +356,10 @@
                                 canvasJson.question.push({ 'r': 1, 'w': 0, 'sr': 0, 'sw': 0, 'eimg': '', 'err': [] });
                             } else if (checkObj[j].type == 'wrong') {
                                 var errJson = [];
-                                var txt = "";
                                 var _eindex = checkObj[j].eindex;
-                                var txtCt = jQuery('#errMsg').find('.wrong_item > i:eq(' + _eindex + ')').siblings().find('div');
-
-                                for (var k = 0; k < txtCt.length; k++) {
-                                    txt += txtCt.text();
-                                    if (k != (txtCt.length - 1)) {
-                                        txt += ",";
-                                    }
-                                }
+                                var txt = getErrTagsByIndex(_eindex);
                                 errJson[0] = {
-                                    "id": _eindex,
+                                    "id": _eindex + 1,
                                     "desc": txt,
                                     "x": checkObj[j].left,
                                     "y": checkObj[j].top
@@ -376,17 +367,13 @@
                                 canvasJson.question.push({ 'r': 0, 'w': 1, 'sr': 0, 'sw': 0, 'eimg': errImg, 'err': errJson });
                                 errImg = "";
                             }
-                            //圈定的错图上传
-                            if (checkObj[j].type == 'rectangle') {
-                                toImgUpload(checkObj[j], checkObj[j].left, checkObj[j].top, checkObj[j].width, checkObj[j].height);
-                            }
                         }
                         paramJson.pages.push(canvasJson);
                     } else {
                         //这里的图片没有点击初始化
                     }
                 }
-
+                console.log(JSON.stringify(paramJson));
             }
         });
         //更多操作
@@ -439,6 +426,19 @@
             if (isRemove) {
                 canvas.add(canvasControl);
             }
+        }
+        //获取错误标签描述集合（根据标号）
+        function getErrTagsByIndex(eindex) {
+            var txt = "";
+            var txtCt = jQuery('#errMsg').find('.wrong_item > i[value="' + (eindex + 1) + '"]').siblings().find('div');
+            for (var k = 0; k < txtCt.length; k++) {
+                txt += txtCt.eq(k).text();
+
+                if (k != (txtCt.length - 1)) {
+                    txt += ",";
+                }
+            }
+            return txt;
         }
 
     });

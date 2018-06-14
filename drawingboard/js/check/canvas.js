@@ -101,6 +101,7 @@ function switchCanvas(url, index) {
         var eindex = e.target._objects[etindex].eindex;
         canvas.remove(errTextBoxArray[(1 + eindex)]); //移除对应右上角的数字
         delete errTextBoxArray[(1 + eindex)];
+
         canvas.remove(e.target._objects[etindex]);
 
         //移除作业批注
@@ -124,7 +125,7 @@ function switchCanvas(url, index) {
     canvas.discardActiveObject(); //清楚选中框
   });
 
-  
+
 }
 
 window.zoom = window.zoom ? window.zoom : 1;
