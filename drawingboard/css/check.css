@@ -307,3 +307,5 @@ html,
     .other_btn_wrap div {
       padding: 0.25rem 0;
     }
+
+    .top {height:100%;background-color:#fff;filter:Alpha(Opacity=60);opacity:0.6;}
