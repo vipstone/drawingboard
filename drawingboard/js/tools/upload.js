@@ -10,59 +10,68 @@ function uploadImg(uploadImageArray, qiniuToken) {
         var config = {
             useCdnDomain: true
         };
-
-        for (var i = 1; i < uploadImageArray.length; i++) {
-            // // base64 转 blob 模式上传
-            // var contentType = 'image/png';
-            // var blob = base64ToBlob(uploadImageArray[i].base64.replace('data:image/png;base64,', ''), contentType, undefined);
-
-            // var observable = qiniu.upload(blob, uploadImageArray[i].name, qiniuToken, putExtra, config);
-            // var subscription = observable.subscribe({
-            //     next(res) {
-            //         // console.log(res);
-            //     },
-            //     error(err) {
-            //         console.log(err);
-            //     },
-            //     complete(res) {
-            //         console.log(res);
-            //     }
-            // });
-
-            //base64模式直接上传
-            var urlkey = toBase64(uploadImageArray[i].name); //自定义文件名必须是base64格式的
-            var url = "http://upload.qiniup.com/putb64/-1/key/" + urlkey; //非华东空间需要根据注意事项-修改上传域名(upload.qiniup.com)
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    //返回信息
-                    console.log(xhr.responseText);
-                }
-            }
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-Type", "application/octet-stream");
-            xhr.setRequestHeader("Authorization", "UpToken " + qiniuToken);
-            xhr.send(uploadImageArray[i].base64.replace('data:image/png;base64,', ''));
+        window.WinSuccCount = 0;
+        window.WinUploadImgCount = uploadImageArray.length;
+        for (var i = 0; i < uploadImageArray.length; i++) {
+            doUpload(uploadImageArray[i].name, uploadImageArray[i].base64.replace('data:image/png;base64,', ''), qiniuToken);
         }
     }
 }
 
-var toBase64Table = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-var base64Pad = '=';
+//图片上传七牛云
+function doUpload(name, base64, qiniuToken) {
+    //图片上传（base64模式直传）
+    var urlkey = toBase64(name); //自定义文件名必须是base64格式的
+    var url = "http://upload.qiniup.com/putb64/-1/key/" + urlkey; //非华东空间需要根据注意事项-修改上传域名(upload.qiniup.com)
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            //返回信息
+            console.log(xhr.responseText);
+
+            //检测是否上传完毕，提交请求给服务器
+            ++window.WinSuccCount;
+            if (window.WinUploadImgCount == window.WinSuccCount) {
+                reqCheckServer();
+                window.WinSuccCount = 0;
+                window.WinUploadImgCount = 0;
+            }
+        }
+    }
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/octet-stream");
+    xhr.setRequestHeader("Authorization", "UpToken " + qiniuToken);
+    xhr.send(base64);
+}
+
+//提交作业批改（php）
+function reqCheckServer() {
+    if (window.checkJson) {
+        prompt("最终结果", window.checkJson);
+        // jQuery.ajax({
+        //     type: "POST",
+        //     url: config.checkURL,
+        //     data: { "param": window.checkJson },
+        //     success: function (res) {
+        //         console.log(res);
+        //     }
+        // });
+        jQuery("#maskDiv").hide();
+    }
+}
+
 function toBase64(data) {
+    var toBase64Table = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    var base64Pad = '=';
     var result = '';
     var length = data.length;
     var i;
-    // Convert every three bytes to 4 ascii characters.                                                   
-
     for (i = 0; i < (length - 2); i += 3) {
         result += toBase64Table[data.charCodeAt(i) >> 2];
         result += toBase64Table[((data.charCodeAt(i) & 0x03) << 4) + (data.charCodeAt(i + 1) >> 4)];
         result += toBase64Table[((data.charCodeAt(i + 1) & 0x0f) << 2) + (data.charCodeAt(i + 2) >> 6)];
         result += toBase64Table[data.charCodeAt(i + 2) & 0x3f];
     }
-
-    // Convert the remaining 1 or 2 bytes, pad out to 4 characters.     
     if (length % 3) {
         i = length - (length % 3);
         result += toBase64Table[data.charCodeAt(i) >> 2];

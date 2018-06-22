@@ -237,6 +237,15 @@ html,
       z-index: 9999;
     }
 
+    .mask_modal {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+    }
+
     .mark_error_box {
       width: 11.2rem;
       height: 7.2rem;

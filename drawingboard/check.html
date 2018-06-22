@@ -133,6 +133,14 @@
             </div>
         </div>
     </div>
+
+    <div id="maskDiv" class="mask_modal" style="display: none;">
+        <div class="top">
+            <div style="width: 100%;padding-left: 30%;padding-top: 20%">数据提交中，请稍等...</div>
+        </div>
+    </div>
+
+
     <div id="errModal" class="mark_error_modal fn-hide">
         <div class="top"></div>
         <div class="mark_error_box center-self">
@@ -161,6 +169,7 @@
 <script type="text/javascript" src="../js/check/qiniu.min.js"></script>
 <script type="text/javascript" src="js/fabric.min.js"></script>
 <script type="text/javascript" src="js/check/canvas.js"></script>
+<script type="text/javascript" src="js/check/config.js"></script>
 <script type="text/javascript" src="js/tools/md5.min.js"></script>
 <script type="text/javascript" src="js/tools/uuid.js"></script>
 <script type="text/javascript" src="js/tools/upload.js"></script>
@@ -169,7 +178,6 @@
     jQuery(function () {
         var canvasInit = []; //已经初始化的canvas
         var uploadImageArray = []; //需要上传的图片集合{"name":"xxx","base64":"xxx"}
-        var baseImgUrl = "http://img.yousi.com/";
         var errTagType = {
             '语文': ['遗漏', '理解不清晰', '粗心大意', '审题不清', '基础不牢', '积累不够', '运用错误', '区分错误', '缺乏逻辑'],
             '数学': ['计算错误', '审题错误', '遗漏', '基础不牢固', '粗心大意', '概念不清', '换算错误', '公式不熟练', '缺乏解题技巧', '书写不端正'],
@@ -273,27 +281,28 @@
             type: "GET",
             cache: false,
             dataType: "jsonp",
-            url: 'http://172.16.10.79:8360/qiniu/gettoken',
+            url: config.tokenURL,
             data: {},
             success: function (res) {
                 qiniuToken = res.token;
-                console.log("qiniuToken:" + qiniuToken);
             }
         });
 
         //提交作业
         jQuery("#subBut").on("click", function () {
+            jQuery("#maskDiv").show();
             var fs = jQuery("#fontScore").find("div.active").index() + 1;
             if (fs <= 0) {
                 alert("操作失败，请先选择字迹评分！");
                 return false;
             }
             if (true) { //TODO:confirm("确认作业批改完成？")
-                var paramJson = {
+                var checkJson = {
                     "pages": [],
                     "font": fs,
                     "callback": {}
                 };
+                window.checkJson = undefined;
                 for (var i = 0; i < canvasArr.length; i++) {
                     if (canvasArr[i]) {
                         var canvasJson = {
@@ -314,7 +323,7 @@
                             } else {
                                 var _imgName = md5(uuid.uuid() + new Date().getTime()) + ".png";
                                 canvasJson.page.imgorg = objs[j]._element.src;
-                                canvasJson.page.img = baseImgUrl + _imgName;
+                                canvasJson.page.img = config.imgDomain + _imgName;
                                 canvasJson.page.w = objs[j].width;
                                 canvasJson.page.h = objs[j].height;
                                 addUploadImg(canvasArr[i], objs[j], _imgName, false);
@@ -340,7 +349,7 @@
                                     break;
                                 case 'rectangle': //框
                                     var _imgName = md5(uuid.uuid() + new Date().getTime()) + ".png";
-                                    errImg = baseImgUrl + _imgName;
+                                    errImg = config.imgDomain + _imgName;
                                     addUploadImg(canvasArr[i], checkObj[j], _imgName, true);
                                     prevSmallType = false;
                                     break;
@@ -387,27 +396,15 @@
                                 errImg = "";
                             }
                         }
-                        paramJson.pages.push(canvasJson);
+                        checkJson.pages.push(canvasJson);
                     } else {
                         //这里的图片没有点击初始化
                     }
                 }
+                window.checkJson = JSON.stringify(checkJson);
 
-                // //TODO:上传图片(暂时屏蔽)
-                // uploadImg(uploadImageArray, qiniuToken);
-
-                // //提交数据
-                // jQuery.ajax({
-                //     type: "POST",
-                //     url: "http://third.172.16.11.49.xip.io/wq.php/Record/wrongQuestion",
-                //     data: { "val": JSON.stringify(paramJson) },
-                //     success: function (res) {
-                //         console.log(res);
-                //     }
-                // });
-
-                prompt("最终结果", JSON.stringify(paramJson));
-
+                //上传图片+请求服务器
+                uploadImg(uploadImageArray, qiniuToken);
             }
         });
         //更多操作
@@ -455,7 +452,7 @@
 
             uploadImageArray.push({ "name": imgName, "base64": base64 });
 
-            jQuery("#testImg").append('<img src="' + base64 + '"/><br />');
+            // jQuery("#testImg").append('<img src="' + base64 + '"/><br />');
 
             if (isRemove) {
                 canvas.add(canvasControl);
