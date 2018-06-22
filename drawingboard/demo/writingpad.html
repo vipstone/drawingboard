@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手写板绘制</title>
+    <style>
+        .canvas {
+            border: 1px solid rgb(170, 170, 170);
+            cursor: pointer;
+        }
+
+        .mgTop {
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/fabric.js/2.2.3/fabric.min.js"></script>
+</head>
+
+<body style="padding-left: 10px;text-align:center;">
+
+    <h1>图片加载</h1>
+
+    <div class="mgTop">
+        <canvas id="freeCanvas" class="canvas"></canvas>
+    </div>
+
+    <button onclick="toData()"> 转换 </button>
+
+    <script>
+        var canvas = new fabric.Canvas("freeCanvas", {
+            isDrawingMode: true,
+            selection: false,
+            width: 1000,
+            height: 600
+        });
+
+        var path = 'M 485.0289401197605 117.171926910299 ';
+        path += 'Q 485.02994011976045 117.171926910299 485.5289421157685 117.17192691029';
+        path += 'Q 486.02794411177643 117.171926910299 488.02395209580834 117.171926910299 ';
+        path += 'Q 490.0199600798403 117.171926910299 502.9940119760479 116.67358803986711 ';
+        path += 'Q 515.9680638722555 116.17524916943522 532.934131736527 116.17524916943522 ';
+        // path += 'Q 549.9001996007984 116.17524916943522 579.3413173652694 119.66362126245846 ';
+        // path += 'Q 608.7824351297405 123.15199335548172 642.2155688622754 128.63372093023256 ';
+        // path += 'Q 675.6487025948103 134.1154485049834 702.0958083832335 139.59717607973423 ';
+        // path += 'Q 728.5429141716567 145.07890365448506 745.0099800399202 148.0689368770764 ';
+        // path += 'Q 761.4770459081836 151.05897009966776 770.4590818363274 152.55398671096344 ';
+        // path += 'L 786.4281457085827 155.0456810631229';
+
+        var dpath = new fabric.Path(path, {
+            stroke: '#E34F51',
+            fill: "rgba(255, 255, 255, 0)",
+            strokeWidth: 2
+        });
+
+        canvas.add(dpath);
+
+        function toData() {
+            for (var index = 0; index < 100; index++) {
+                dpath.path.push(["Q", 761.4770459081836, 151.05897009966776, 770.4590818363274, 152.55398671096344]);
+            }
+
+            dpath.path.push(["L", 786.4281457085827, 155.0456810631229]);
+            canvas.loadFromJSON(canvas.toJSON());
+
+            // console.log(canvas._objects[0].path);
+            console.log(canvas.toJSON());
+        }
+
+        //手写板绘制 type:0=>开始绘制 1=>绘制中 2=>结束绘制
+        function writingPad(type, coords) {
+
+        }
+
+
+
+
+        // fabric.Image.fromURL('../image/tools-28.png', function (img) {
+        //     img.scaleToHeight(224 / 2, false);  //缩放图片高度
+        //     img.scaleToWidth(168 / 2, false);   //缩放图片宽度
+        //     canvas.add(img);
+        // });
+
+    </script>
+</body>
+
+</html>
