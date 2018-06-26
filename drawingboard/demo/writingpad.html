@@ -3,8 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>手写板绘制</title>
     <style>
         .canvas {
@@ -17,63 +15,205 @@
             text-align: center;
         }
     </style>
-    <script src="https://cdn.bootcss.com/fabric.js/2.2.3/fabric.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/fabric.js/2.2.3/fabric.min.js"></script> -->
+    <script src="../js/fabric.min.js"></script>
 </head>
 
 <body style="padding-left: 10px;text-align:center;">
 
-    <h1>图片加载</h1>
+    <h1>手写板测试</h1>
 
     <div class="mgTop">
-        <canvas id="freeCanvas" class="canvas"></canvas>
+        <canvas width="1880" height="600" id="freeCanvas" class="canvas"></canvas>
     </div>
 
-    <button onclick="toData()"> 转换 </button>
+    <button style="display: none;" onclick="toData()"> 转换 </button>
 
     <script>
         var canvas = new fabric.Canvas("freeCanvas", {
             isDrawingMode: true,
             selection: false,
-            width: 1000,
+            width: 1880,
             height: 600
         });
 
-        var path = 'M 485.0289401197605 117.171926910299 ';
-        path += 'Q 485.02994011976045 117.171926910299 485.5289421157685 117.17192691029';
-        path += 'Q 486.02794411177643 117.171926910299 488.02395209580834 117.171926910299 ';
-        path += 'Q 490.0199600798403 117.171926910299 502.9940119760479 116.67358803986711 ';
-        path += 'Q 515.9680638722555 116.17524916943522 532.934131736527 116.17524916943522 ';
-        // path += 'Q 549.9001996007984 116.17524916943522 579.3413173652694 119.66362126245846 ';
-        // path += 'Q 608.7824351297405 123.15199335548172 642.2155688622754 128.63372093023256 ';
-        // path += 'Q 675.6487025948103 134.1154485049834 702.0958083832335 139.59717607973423 ';
-        // path += 'Q 728.5429141716567 145.07890365448506 745.0099800399202 148.0689368770764 ';
-        // path += 'Q 761.4770459081836 151.05897009966776 770.4590818363274 152.55398671096344 ';
-        // path += 'L 786.4281457085827 155.0456810631229';
+        window.open("http://cmd.com/setpadcanvas?" + canvas.width + "&" + canvas.height);
 
-        var dpath = new fabric.Path(path, {
-            stroke: '#E34F51',
-            fill: "rgba(255, 255, 255, 0)",
-            strokeWidth: 2
-        });
+        // var path = 'M 485.0289401197605 117.171926910299 ';
+        // path += 'Q 485.02994011976045 117.171926910299 485.5289421157685 117.17192691029';
+        // path += 'Q 486.02794411177643 117.171926910299 488.02395209580834 117.171926910299 ';
+        // path += 'Q 490.0199600798403 117.171926910299 502.9940119760479 116.67358803986711 ';
+        // path += 'Q 515.9680638722555 116.17524916943522 532.934131736527 116.17524916943522 ';
+        // // path += 'Q 549.9001996007984 116.17524916943522 579.3413173652694 119.66362126245846 ';
+        // // path += 'Q 608.7824351297405 123.15199335548172 642.2155688622754 128.63372093023256 ';
+        // // path += 'Q 675.6487025948103 134.1154485049834 702.0958083832335 139.59717607973423 ';
+        // // path += 'Q 728.5429141716567 145.07890365448506 745.0099800399202 148.0689368770764 ';
+        // // path += 'Q 761.4770459081836 151.05897009966776 770.4590818363274 152.55398671096344 ';
+        // // path += 'L 786.4281457085827 155.0456810631229';
 
-        canvas.add(dpath);
+        // var dpath = new fabric.Path(path, {
+        //     stroke: '#E34F51',
+        //     fill: "rgba(255, 255, 255, 0)",
+        //     strokeWidth: 2
+        // });
+
+        // canvas.add(dpath);
 
         function toData() {
-            for (var index = 0; index < 100; index++) {
-                dpath.path.push(["Q", 761.4770459081836, 151.05897009966776, 770.4590818363274, 152.55398671096344]);
-            }
+            // for (var index = 0; index < 100; index++) {
+            //     ddrawingPath.drawingPath.push(["Q", 761.4770459081836, 151.05897009966776, 770.4590818363274, 152.55398671096344]);
+            // }
 
-            dpath.path.push(["L", 786.4281457085827, 155.0456810631229]);
-            canvas.loadFromJSON(canvas.toJSON());
+            // ddrawingPath.drawingPath.push(["L", 786.4281457085827, 155.0456810631229]);
+            // canvas.loadFromJSON(canvas.toJSON());
 
             // console.log(canvas._objects[0].path);
             console.log(canvas.toJSON());
-        }
-
-        //手写板绘制 type:0=>开始绘制 1=>绘制中 2=>结束绘制
-        function writingPad(type, coords) {
+            console.log(drawingPath.path);
 
         }
+
+        var invalidCoord = -1000000; //无效的坐标值
+        var prevX = invalidCoord, prevY = invalidCoord; //绘制中上一个节点的x,y
+        var drawingIndex = 0; //绘制对象的下标
+        var drawingPath = undefined;
+        var drawColor = '#E34F51',
+            strokeWidth = 2,
+            tempCount = 0;
+
+
+        //手写板绘制 type:M=>开始绘制 Q=>绘制中 L=>结束绘制
+        function writingPad(type, x, y) {
+            if (type) {
+                switch (type.toLowerCase()) {
+                    case 'm':
+                        //开始绘制
+                        drawingPath = new fabric.Path('M ' + x + ' ' + y + ' ', {
+                            stroke: drawColor,
+                            fill: "rgba(255, 255, 255, 0)",
+                            strokeWidth: strokeWidth
+                        });
+                        canvas.add(drawingPath);
+                        break;
+                    case 'q':
+                        if (drawingPath) {
+                            if (prevX == invalidCoord || prevY == invalidCoord) {
+                                prevX = x, prevY = y;
+                            } else {
+                                ++tempCount;
+                                if (tempCount % 2) {
+
+                                    drawingPath.path.push(["Q", prevX, prevY, x, y]);
+
+                                    var _path = drawingPath.path;
+                                    canvas.remove(_path);
+
+                                    drawingPath = new fabric.Path(_path, {
+                                        stroke: drawColor,
+                                        fill: "rgba(255, 255, 255, 0)",
+                                        strokeWidth: strokeWidth
+                                    });
+                                    canvas.add(drawingPath);
+
+                                    prevX = invalidCoord, prevY = invalidCoord;
+                                }
+                            }
+                        } else {
+                            alert('绘制失败：画板异常，请重新连接画板重试！');
+                        }
+                        break;
+                    case 'l':
+                        drawingPath.path.push(["L", x, y]);
+                        // canvas.loadFromJSON(canvas.toJSON());
+                        drawingPath = undefined;
+                        prevX = invalidCoord, prevY = invalidCoord;
+                        tempCount = 0;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        function updateDims() {
+            var dims = drawingPath._parseDimensions(),
+                prevDims = drawingPath.prevDims || {},
+                leftDiff = dims.left - (prevDims.left || 0),
+                topDiff = dims.top - (prevDims.top || 0);
+
+            drawingPath.width = (dims.width);
+            drawingPath.height = (dims.height);
+
+            if (dims.left < 0) {
+                drawingPath.pathOffset.x = drawingPath.width / 2 + dims.left;
+                drawingPath.left = drawingPath.left + leftDiff;
+            } else {
+                drawingPath.pathOffset.x = drawingPath.width / 2;
+            }
+
+            if (dims.top < 0) {
+                drawingPath.pathOffset.y = drawingPath.height / 2 + dims.top;
+                drawingPath.top = drawingPath.top + topDiff;
+            } else {
+                drawingPath.pathOffset.y = drawingPath.height / 2;
+            }
+
+            drawingPath.prevDims = dims;
+            drawingPath.setCoords();
+            canvas.renderAll();
+        }
+
+        // //手写板绘制 type:M=>开始绘制 Q=>绘制中 L=>结束绘制
+        // function writingPad(type, x, y) {
+        //     if (type) {
+        //         switch (type.toLowerCase()) {
+        //             case 'm':
+        //                 //开始绘制
+        //                 drawingPath = new fabric.Path('M ' + x + ' ' + y + ' ', {
+        //                     stroke: drawColor,
+        //                     fill: "rgba(255, 255, 255, 0)",
+        //                     strokeWidth: strokeWidth
+        //                 });
+        //                 canvas.add(drawingPath);
+        //                 break;
+        //             case 'q':
+        //                 if (drawingPath) {
+        //                     if (prevX == invalidCoord || prevY == invalidCoord) {
+        //                         prevX = x, prevY = y;
+        //                     } else {
+        //                         drawingPath.drawingPath.push(["Q", prevX, prevY, x, y]);
+
+        //                         console.log(drawingPath.path);
+
+        //                         canvas.loadFromJSON(canvas.toJSON());
+        //                         prevX = x, prevY = y;
+        //                     }
+        //                 } else {
+        //                     alert('绘制失败：画板异常，请重新连接画板重试！');
+        //                 }
+        //                 break;
+        //             case 'l':
+        //                 drawingPath.drawingPath.push(["L", x, y]);
+        //                 canvas.loadFromJSON(canvas.toJSON());
+        //                 drawingPath = undefined;
+        //                 prevX = invalidCoord, prevY = invalidCoord;
+        //                 break;
+        //             default:
+        //                 break;
+        //         }
+        //     }
+        // }
+
+
+        // writingPad('M', 492, 108);
+        // writingPad('Q', 492, 108);
+        // writingPad('Q', 492, 109);
+        // writingPad('Q', 493, 109);
+        // writingPad('Q', 494, 109);
+        // writingPad('Q', 495, 109);
+        // writingPad('Q', 498, 109);
+        // writingPad('Q', 501, 110);
+        // writingPad('L', 502, 110);
 
 
 
