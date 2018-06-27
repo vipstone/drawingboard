@@ -47,15 +47,16 @@ function doUpload(name, base64, qiniuToken) {
 //提交作业批改（php）
 function reqCheckServer() {
     if (window.checkJson) {
-        prompt("最终结果", window.checkJson);
-        // jQuery.ajax({
-        //     type: "POST",
-        //     url: config.checkURL,
-        //     data: { "param": window.checkJson },
-        //     success: function (res) {
-        //         console.log(res);
-        //     }
-        // });
+        // prompt("最终结果", window.checkJson);
+        jQuery.ajax({
+            type: "POST",
+            url: config.checkURL,
+            data: { "param": window.checkJson },
+            success: function (res) {
+                location.href = config.callbackURL;
+                console.log(res);
+            }
+        });
         jQuery("#maskDiv").hide();
     }
 }

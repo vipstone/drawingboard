@@ -23,17 +23,19 @@
     <h1>手写板测试</h1>
 
     <div class="mgTop">
-        <canvas width="1880" height="600" id="freeCanvas" class="canvas"></canvas>
+        <canvas width="1880" height="1329" id="freeCanvas" class="canvas"></canvas>
     </div>
 
     <button style="display: none;" onclick="toData()"> 转换 </button>
+
+    <button onclick="clearCanvas()"> 清空画板 </button>
 
     <script>
         var canvas = new fabric.Canvas("freeCanvas", {
             isDrawingMode: true,
             selection: false,
             width: 1880,
-            height: 600
+            height: 1329
         });
 
         window.open("http://cmd.com/setpadcanvas?" + canvas.width + "&" + canvas.height);
@@ -53,6 +55,9 @@
 
         //手写板绘制 type:M=>开始绘制 Q=>绘制中 L=>结束绘制
         function writingPad(type, x, y) {
+
+            // window.open("http://cmd.com/WriteLog?writingPad—type:" + type + " x:" + x + " y:" + y);
+
             if (type) {
                 switch (type.toLowerCase()) {
                     case 'm':
@@ -83,6 +88,9 @@
                                     });
                                     canvas.add(drawingPath);
                                     prevX = invalidCoord, prevY = invalidCoord;
+
+                                    // window.open("http://cmd.com/WriteLog?drawingPath—type:" + type + " x:" + x + " y:" + y);
+
                                 }
                             }
                         } else {
@@ -101,6 +109,10 @@
                         break;
                 }
             }
+        }
+
+        function clearCanvas() {
+            canvas.clear();
         }
 
     </script>

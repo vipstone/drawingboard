@@ -300,7 +300,12 @@
                 var checkJson = {
                     "pages": [],
                     "font": fs,
-                    "callback": {}
+                    "callback": {
+                        "task_id": (getUrlParam("task_id") || ""),
+                        "task_list_id": (getUrlParam("task_list_id") || ""),
+                        "userinfo": (getUrlParam("userinfo") || ""),
+                        "type": (getUrlParam("type") || "")
+                    }
                 };
                 window.checkJson = undefined;
                 for (var i = 0; i < canvasArr.length; i++) {
